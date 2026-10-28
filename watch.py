@@ -16,6 +16,8 @@ import os
 import re
 import subprocess
 import sys
+import time
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -33,17 +35,29 @@ THRESHOLDS = {
     'cpc_strong': 70,                   # CPC probability (%) for Buffalo that counts as strong
     'erie_above_avg': 2.0,
     'noreaster_mb': 990,                # low pressure off the Northeast coast
-    'arctic_850c': -10,                 # 850 mb (about 5,000 ft) temperature over Buffalo              # Lake Erie degrees C above the 1995-2025 average for the date
+    'arctic_850c': -10,
+    'seiche_ft': 6.0,                   # Buffalo minus Toledo water level
+    'wave_ft': 8,                       # eastern Lake Erie buoy wave height
+    'aurora_kp': 6,                     # NOAA Kp forecast
+    'gale_mph': 35,                     # GEFS 10 m wind over Lake Erie from the SW-W                 # 850 mb (about 5,000 ft) temperature over Buffalo              # Lake Erie degrees C above the 1995-2025 average for the date
 }
-INTERVAL_MIN = {'nws': 15, 'cpc': 60, 'aonao': 180, 'erie': 360, 'vortex': 180, 'gefs10': 60}
-NWS_EVENTS = re.compile(r'Lake Effect Snow|Winter Storm|Blizzard|Ice Storm|High Wind Warning|Wind Chill Warning|Extreme Cold', re.I)
+INTERVAL_MIN = {'nws': 15, 'cpc': 60, 'aonao': 180, 'erie': 360, 'vortex': 180, 'gefs10': 60, 'lakesky': 15}
+NWS_EVENTS = re.compile(r'Lake Effect Snow|Winter Storm|Blizzard|Ice Storm|High Wind Warning|Wind Chill Warning|Extreme Cold|Lakeshore Flood|Storm Warning|Gale Warning|Hurricane Force|Severe Thunderstorm|Tornado', re.I)
 BUFFALO = (42.89, -78.88)
 
 
-def get(url, headers=None, timeout=60):
+def get(url, headers=None, timeout=60, tries=3):
     req = urllib.request.Request(url, headers={'User-Agent': UA, **(headers or {})})
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        return r.read()
+    for n in range(tries):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                return r.read()
+        except urllib.error.HTTPError:
+            raise
+        except Exception:
+            if n == tries - 1:
+                raise
+            time.sleep(2 * (n + 1))
 
 
 def now():
@@ -333,7 +347,8 @@ def check_storms_cold(state):
         url = base.format(d=day, c=cyc, m=m, h=h)
         idx = get(url + '.idx', timeout=30).decode().splitlines()
         out = {}
-        for tag in (':PRMSL:mean sea level:', ':TMP:850 mb:', ':TMIN:2 m above ground:'):
+        for tag in (':PRMSL:mean sea level:', ':TMP:850 mb:', ':TMIN:2 m above ground:', ':UGRD:10 m above ground:',
+                    ':VGRD:10 m above ground:'):
             i = next(n for n, l in enumerate(idx) if tag in l)
             a = int(idx[i].split(':')[1])
             b = int(idx[i + 1].split(':')[1]) - 1 if i + 1 < len(idx) else ''
@@ -350,8 +365,10 @@ def check_storms_cold(state):
                 out['slp'] = float(box.min()) / 100
             elif 'TMP:850' in tag:
                 out['t850'] = float(v[row(43), col(-79)]) - 273.15
-            else:
+            elif 'TMIN' in tag:
                 out['tmin'] = (float(v[row(43), col(-79)]) - 273.15) * 9 / 5 + 32
+            else:  # wind over the middle of eastern Lake Erie, m/s
+                out['u' if 'UGRD' in tag else 'v'] = float(v[row(42.5), col(-80.5)])
         return m, h, out
 
     data = {m: {} for m in members}
@@ -453,13 +470,159 @@ def check_storms_cold(state):
                                 + (f'{pct_any}% show lake-effect rain showers.' if pct_any else ''),
                       'run': tag, 'url': 'https://www.weather.gov/buf/'})
 
+    # Seiche and big-wave wind: strong SW-W wind blowing down the length of Lake Erie toward Buffalo
+    def gale(o):
+        mph = (o['u'] ** 2 + o['v'] ** 2) ** 0.5 * 2.237
+        frm = (270 - np.degrees(np.arctan2(o['v'], o['u']))) % 360
+        return mph >= THRESHOLDS['gale_mph'] and 200 <= frm <= 290
+    hits, pct = first_hit(gale)
+    top = max((data[m][h]['u'] ** 2 + data[m][h]['v'] ** 2) ** 0.5 * 2.237 for m in members for h in leads)
+    soon = f'around {fmt_day(when(sorted(hits.values())[len(hits) // 2]))}' if hits else ''
+    if event_steps(state, 'seichewind', pct, [30, 60]):
+        alerts.append(f'🛁 Seiche and big-wave setup. In {len(hits)} of 31 runs of the American weather model ({pct}%), '
+                      f'southwest winds of {THRESHOLDS["gale_mph"]}+ mph blow down the whole length of Lake Erie {soon}. '
+                      'That wind piles water up at the Buffalo end like a tilted bathtub (a seiche) and builds huge waves '
+                      'at Hamburg, Woodlawn and the Buffalo breakwalls.')
+    cards.append({'id': 'seichewind', 'icon': '🛁', 'title': 'Seiche / big-wave wind coming?', 'value': f'{pct}%',
+                  'status': 'alert' if pct >= 30 else 'watch' if pct >= 10 else 'calm',
+                  'detail': f'{len(hits)} of 31 model runs blow SW winds of {THRESHOLDS["gale_mph"]}+ mph down Lake Erie '
+                            f'{soon or "in the next 10 days"}. Strongest run: {top:.0f} mph.',
+                  'run': tag, 'url': 'https://tidesandcurrents.noaa.gov/waterlevels.html?id=9063020'})
+
+    # Sea smoke: frigid air over the warm lake makes steam fog at sunrise
+    if lake is not None:
+        lake_f = lake * 9 / 5 + 32
+        hits, pct = first_hit(lambda o: lake_f - o['tmin'] >= 30, nights)
+        soon = f'around {fmt_day(when(sorted(hits.values())[len(hits) // 2]))}' if hits else ''
+        if event_steps(state, 'seasmoke', pct, [50]):
+            alerts.append(f'🌫️ Sea smoke photo morning. When air about 30°F colder than the lake sits over it, the lake '
+                          f'"steams" like a hot bath, making wisps of fog called sea smoke. Lake Erie is {lake_f:.0f}°F and '
+                          f'{len(hits)} of 31 model runs ({pct}%) drop Buffalo to {lake_f - 30:.0f}°F or colder {soon}. '
+                          'Best right at sunrise with light wind.')
+        cards.append({'id': 'seasmoke', 'icon': '🌫️', 'title': 'Sea smoke (lake steam) mornings', 'value': f'{pct}%',
+                      'status': 'alert' if pct >= 50 else 'watch' if pct >= 20 else 'calm',
+                      'detail': f'Needs Buffalo at {lake_f - 30:.0f}°F or colder over {lake_f:.0f}°F water. '
+                                f'{len(hits)} of 31 model runs get there {soon or "in the next 10 days"}.',
+                      'run': tag, 'url': 'https://www.weather.gov/buf/'})
+
+    # Niagara Falls ice: three nights in a row at 10F or colder
+    def ice_run(m):
+        cold = [data[m][h]['tmin'] <= 10 for h in nights]
+        for i in range(len(cold) - 2):
+            if all(cold[i:i + 3]):
+                return nights[i]
+        return None
+    starts = {m: h for m in members if (h := ice_run(m)) is not None}
+    pct = round(100 * len(starts) / nmem)
+    soon = f'starting around {fmt_day(when(sorted(starts.values())[len(starts) // 2]))}' if starts else ''
+    if event_steps(state, 'fallsice', pct, [50]):
+        alerts.append(f'🧊 Niagara Falls ice photos coming. In {len(starts)} of 31 runs of the American weather model ({pct}%), '
+                      f'Buffalo gets 3 nights in a row at 10°F or colder {soon}. That much cold coats the Falls, trees and '
+                      'railings in thick ice from the mist. Go a day or two after the cold starts.')
+    cards.append({'id': 'fallsice', 'icon': '🧊', 'title': 'Niagara Falls ice?', 'value': f'{pct}%',
+                  'status': 'alert' if pct >= 50 else 'watch' if pct >= 20 else 'calm',
+                  'detail': f'{len(starts)} of 31 model runs bring 3 straight nights at 10°F or colder {soon or "in the next 10 days"}.',
+                  'run': tag, 'url': 'https://www.niagarafallsstatepark.com/'})
+
     state['gefs10'] = {'run': key, 'cards': cards}
     return cards, alerts
 
 
-CHECKS = {'vortex': check_vortex, 'nws': check_nws, 'aonao': check_aonao, 'cpc': check_cpc, 'erie': check_erie, 'gefs10': check_storms_cold}
-CARD_IDS = {'vortex': ['vortex'], 'nws': ['nws'], 'aonao': ['ao', 'nao'], 'cpc': ['cpc610', 'cpc814'], 'erie': ['erie'], 'gefs10': ['noreaster', 'freeze', 'arctic', 'lakeeffect']}
-ORDER = ['vortex', 'nws', 'aonao', 'cpc', 'erie', 'gefs10']
+def check_lake_sky(state):
+    """Live lake and sky checks: seiche and waves happening now, northern lights forecast, storm-chasing days."""
+    cards, alerts = [], []
+    today = now().strftime('%Y-%m-%d')
+
+    # Seiche: wind pushes Lake Erie's water toward one end, like water sloshing in a bathtub
+    def level(sid):
+        d = json.loads(get('https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?product=water_level&datum=LWD'
+                           f'&units=english&time_zone=gmt&format=json&date=latest&station={sid}'))
+        return float(d['data'][0]['v'])
+    buf, tol = level(9063020), level(9063085)
+    diff = buf - tol
+    big = THRESHOLDS['seiche_ft']
+    status = 'alert' if abs(diff) >= big else 'watch' if abs(diff) >= big / 2 else 'calm'
+    if abs(diff) >= big and state.get('seiche_alerted') != today:
+        state['seiche_alerted'] = today
+        hi = 'Buffalo' if diff > 0 else 'Toledo'
+        alerts.append(f'🌊 Lake Erie seiche happening now. Strong wind is pushing the lake\'s water toward {hi}, like water '
+                      f'sloshing to one end of a bathtub. Buffalo\'s water is {abs(diff):.1f} feet '
+                      f'{"higher" if diff > 0 else "lower"} than Toledo\'s right now. '
+                      + ('Expect flooding along the Buffalo waterfront and huge waves: great photos, but stay back from the edge.'
+                         if diff > 0 else 'The Buffalo shoreline is drained: exposed lakebed and shipwreck-hunting photos.'))
+    cards.append({'id': 'seiche', 'icon': '🛁', 'title': 'Lake Erie seiche (sloshing) now', 'value': f'{diff:+.1f} ft',
+                  'status': status,
+                  'detail': f'Buffalo water level minus Toledo: {diff:+.1f} ft (Buffalo {buf:.1f} ft above low water). '
+                            f'{big:.0f}+ ft difference = a big seiche.',
+                  'url': 'https://tidesandcurrents.noaa.gov/waterlevels.html?id=9063020'})
+
+    # Waves at the eastern Lake Erie buoy (Port Colborne, 45142)
+    rows = [l.split() for l in get('https://www.ndbc.noaa.gov/data/realtime2/45142.txt').decode().splitlines()[2:8]]
+    wave = next((float(r[8]) * 3.281 for r in rows if r[8] != 'MM'), None)
+    if wave is not None:
+        status = 'alert' if wave >= THRESHOLDS['wave_ft'] else 'watch' if wave >= THRESHOLDS['wave_ft'] / 2 else 'calm'
+        if status == 'alert' and state.get('waves_alerted') != today:
+            state['waves_alerted'] = today
+            alerts.append(f'🌊 Big waves on eastern Lake Erie: the buoy near Port Colborne measures {wave:.0f}-foot waves right '
+                          'now. Waves this size crash over piers and breakwalls at Hamburg, Woodlawn and Dunkirk. Shoot from a '
+                          'safe spot; never stand on the pier.')
+        cards.append({'id': 'waves', 'icon': '🌊', 'title': 'Lake Erie waves now', 'value': f'{wave:.0f} ft', 'status': status,
+                      'detail': f'Eastern Lake Erie buoy: {wave:.1f} ft waves. {THRESHOLDS["wave_ft"]}+ ft = big wave day.',
+                      'url': 'https://www.ndbc.noaa.gov/station_page.php?station=45142'})
+    else:
+        cards.append({'id': 'waves', 'icon': '🌊', 'title': 'Lake Erie waves now', 'value': 'Off', 'status': 'calm',
+                      'detail': 'The wave sensor on the buoy is not reporting (buoys come out of the lake for winter).',
+                      'url': 'https://www.ndbc.noaa.gov/station_page.php?station=45142'})
+
+    # Northern lights: NOAA's 3-day Kp forecast (Kp 6+ can show low on Buffalo's northern horizon, 7+ higher up)
+    kp = json.loads(get('https://services.swpc.noaa.gov/products/noaa-planetary-k-index-forecast.json'))
+    fut = [(r['time_tag'], float(r['kp'])) for r in kp if r.get('observed') == 'predicted']
+    peak_t, peak = max(fut, key=lambda x: x[1]) if fut else (None, 0)
+    when_t = dt.datetime.fromisoformat(peak_t).replace(tzinfo=UTC) if peak_t else None
+    status = 'alert' if peak >= THRESHOLDS['aurora_kp'] else 'watch' if peak >= 5 else 'calm'
+    if status == 'alert' and state.get('aurora_alerted') != peak_t[:10]:
+        state['aurora_alerted'] = peak_t[:10]
+        alerts.append(f'🌌 Northern lights chance. NOAA forecasts a geomagnetic storm reaching Kp {peak:.0f} around '
+                      f'{fmt_day(when_t)}. The Kp scale runs 0 to 9; at {peak:.0f}, the aurora can show up low on the northern '
+                      'horizon over Western New York. Get away from city lights, face north over Lake Ontario, and use a long '
+                      'exposure; cameras often see the colors before your eyes do.')
+    cards.append({'id': 'aurora', 'icon': '🌌', 'title': 'Northern lights in the next 3 days?', 'value': f'Kp {peak:.0f}',
+                  'status': status,
+                  'detail': f'Highest forecast: Kp {peak:.1f}' + (f' around {fmt_day(when_t)}' if when_t else '')
+                            + '. Kp 6+ = maybe visible from WNY, 7+ = good chance.',
+                  'url': 'https://www.swpc.noaa.gov/products/aurora-30-minute-forecast'})
+
+    # Storm days: SPC thunderstorm outlook for Buffalo (shelf clouds, lightning, mammatus)
+    names = {'TSTM': 'general thunderstorms', 'MRGL': 'marginal risk', 'SLGT': 'slight risk', 'ENH': 'enhanced risk',
+             'MDT': 'moderate risk', 'HIGH': 'high risk'}
+    rank = list(names)
+    best = (None, -1, None)
+    for day_n, layer in [(1, 1), (2, 9), (3, 17)]:
+        q = ('https://mapservices.weather.noaa.gov/vector/rest/services/outlooks/SPC_wx_outlks/MapServer/'
+             f'{layer}/query?geometry={BUFFALO[1]},{BUFFALO[0]}&geometryType=esriGeometryPoint&inSR=4326'
+             '&spatialRel=esriSpatialRelIntersects&outFields=label,valid&returnGeometry=false&f=json')
+        for f in json.loads(get(q))['features']:
+            lab = f['attributes']['label']
+            if lab in names and rank.index(lab) > best[1]:
+                best = (lab, rank.index(lab), day_n)
+    lab, r, day_n = best
+    status = 'alert' if r >= rank.index('SLGT') else 'watch' if r >= 0 else 'calm'
+    when_word = {1: 'today', 2: 'tomorrow', 3: 'in 2 days'}.get(day_n, '')
+    if status == 'alert' and state.get('spc_alerted') != f'{today}{lab}':
+        state['spc_alerted'] = f'{today}{lab}'
+        alerts.append(f'⛈️ Storm photo day {when_word}. NOAA\'s Storm Prediction Center puts Buffalo in a {names[lab]} for '
+                      'severe thunderstorms. Strong storms can bring shelf clouds, lightning over the lake, and mammatus clouds '
+                      'after they pass. Watch for warnings and keep a safe escape route.')
+    cards.append({'id': 'storms', 'icon': '⛈️', 'title': 'Thunderstorm photo days', 'value': names[lab].capitalize() if lab else 'None',
+                  'status': status,
+                  'detail': f'Buffalo is in a {names[lab]} {when_word}.' if lab else 'No thunderstorms expected in the next 3 days.',
+                  'url': 'https://www.spc.noaa.gov/products/outlook/'})
+    return cards, alerts
+
+
+CHECKS = {'vortex': check_vortex, 'nws': check_nws, 'aonao': check_aonao, 'cpc': check_cpc, 'erie': check_erie, 'gefs10': check_storms_cold, 'lakesky': check_lake_sky}
+CARD_IDS = {'vortex': ['vortex'], 'nws': ['nws'], 'aonao': ['ao', 'nao'], 'cpc': ['cpc610', 'cpc814'], 'erie': ['erie'], 'gefs10': ['noreaster', 'freeze', 'arctic', 'lakeeffect', 'seichewind', 'seasmoke', 'fallsice'], 'lakesky': ['seiche', 'waves', 'aurora', 'storms']}
+ORDER = ['vortex', 'nws', 'aonao', 'cpc', 'erie', 'gefs10', 'lakesky']
 
 
 # ---------- delivery ----------
