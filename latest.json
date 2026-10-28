@@ -8,7 +8,7 @@
    "status": "calm",
    "detail": "Nothing for Western New York right now.",
    "url": "https://www.weather.gov/buf/",
-   "checked": "2026-10-28T02:59+00:00"
+   "checked": "2026-10-28T03:39+00:00"
   },
   "ao": {
    "id": "ao",
@@ -247,11 +247,11 @@
    "id": "seiche",
    "icon": "\ud83d\udec1",
    "title": "Lake Erie seiche (sloshing) now",
-   "value": "-1.6 ft",
+   "value": "-1.5 ft",
    "status": "calm",
-   "detail": "Buffalo water level minus Toledo: -1.6 ft (Buffalo 1.6 ft above low water). 6+ ft difference = a big seiche.",
+   "detail": "Buffalo water level minus Toledo: -1.5 ft (Buffalo 1.6 ft above low water). 6+ ft difference = a big seiche.",
    "url": "https://tidesandcurrents.noaa.gov/waterlevels.html?id=9063020",
-   "checked": "2026-10-28T03:23+00:00"
+   "checked": "2026-10-28T03:39+00:00"
   },
   "waves": {
    "id": "waves",
@@ -261,7 +261,7 @@
    "status": "calm",
    "detail": "Eastern Lake Erie buoy: 1.6 ft waves. 8+ ft = big wave day.",
    "url": "https://www.ndbc.noaa.gov/station_page.php?station=45142",
-   "checked": "2026-10-28T03:23+00:00"
+   "checked": "2026-10-28T03:39+00:00"
   },
   "aurora": {
    "id": "aurora",
@@ -271,7 +271,7 @@
    "status": "calm",
    "detail": "Highest forecast: Kp 4.0 around Oct 31. Kp 6+ = maybe visible from WNY, 7+ = good chance.",
    "url": "https://www.swpc.noaa.gov/products/aurora-30-minute-forecast",
-   "checked": "2026-10-28T03:23+00:00"
+   "checked": "2026-10-28T03:39+00:00"
   },
   "storms": {
    "id": "storms",
@@ -281,7 +281,7 @@
    "status": "calm",
    "detail": "No thunderstorms expected in the next 3 days.",
    "url": "https://www.spc.noaa.gov/products/outlook/",
-   "checked": "2026-10-28T03:23+00:00"
+   "checked": "2026-10-28T03:39+00:00"
   },
   "seichewind": {
    "id": "seichewind",
@@ -327,5 +327,5 @@
    "text": "\ud83c\udf2a\ufe0f The polar vortex may break down. The polar vortex is a huge spinning wind high above the Arctic that usually keeps the coldest air locked up north. In 20 of 31 runs of the American weather model (65%), that spin stops and reverses, as early as Nov 4. When that happens, Arctic air often spills south 1 to 3 weeks later, which can mean cold and snow for Buffalo. Yesterday it was 35%."
   }
  ],
- "updated": "2026-10-28T03:38+00:00"
+ "updated": "2026-10-28T03:39+00:00"
 }
