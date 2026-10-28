@@ -1,0 +1,101 @@
+{
+ "ran": {
+  "nws": "2026-10-28T02:14:58.062468+00:00",
+  "aonao": "2026-10-28T02:19:48.968806+00:00",
+  "cpc": "2026-10-28T02:15:00.015726+00:00",
+  "erie": "2026-10-28T02:19:49.574571+00:00",
+  "vortex": "2026-10-28T02:18:21.162218+00:00"
+ },
+ "nws_seen": [],
+ "ao_status": "watch",
+ "nao_status": "calm",
+ "cpc610": {
+  "issued": 1793059200000,
+  "cat": "Above",
+  "prob": 60
+ },
+ "cpc814": {
+  "issued": 1793059200000,
+  "cat": "Above",
+  "prob": 40
+ },
+ "vortex_hist": [
+  {
+   "run": "20261026",
+   "pct": 35,
+   "pct16": 35
+  },
+  {
+   "run": "20261027",
+   "pct": 65,
+   "pct16": 65
+  }
+ ],
+ "vortex_steps_sent": {
+  "2026": [
+   20,
+   40,
+   60
+  ]
+ },
+ "vortex": {
+  "run": "20261027",
+  "card": {
+   "id": "vortex",
+   "icon": "\ud83c\udf2a\ufe0f",
+   "title": "Polar vortex split chance",
+   "value": "65%",
+   "status": "alert",
+   "detail": "65% of 31 GEFS members reverse the 10 hPa winds at 60\u00b0N within 22 days (65% within 16 days). Earliest: Nov 4. Yesterday: 35%.",
+   "run": "GEFS Oct 27 00z",
+   "series": {
+    "days": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     18,
+     20,
+     22
+    ],
+    "mean": [
+     16.5,
+     14.5,
+     12.1,
+     11.5,
+     10.2,
+     7.2,
+     4.4,
+     2.0,
+     0.9,
+     0.7,
+     0.9,
+     0.5,
+     0.7,
+     1.8,
+     3.8,
+     6.1,
+     10.1,
+     12.8,
+     15.7
+    ]
+   },
+   "url": "https://www.severe-weather.eu/polar-vortex-forecast/",
+   "checked": "2026-10-28T02:18+00:00"
+  },
+  "reach": 22
+ },
+ "erie_alert_week": "2026-43"
+}

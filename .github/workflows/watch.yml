@@ -1,0 +1,31 @@
+name: DWS signal watcher
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: watcher
+  cancel-in-progress: false
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: python watch.py
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+      - name: Save results
+        run: |
+          git config user.name "dws-watcher"
+          git config user.email "dws-watcher@users.noreply.github.com"
+          git add latest.json state.json alerts.log history
+          git diff --cached --quiet || git commit -m "Watcher run $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push

@@ -1,0 +1,342 @@
+#!/usr/bin/env python3
+"""DWS signal watcher: checks raw NOAA/NWS data for big weather signals and pings Dave.
+
+Runs every 15 minutes on GitHub Actions (.github/workflows/watch.yml); also runs by hand on the Mac.
+Each check has its own interval, so the heavy polar vortex download only runs once a day.
+Results go to latest.json (read by the DWS Board build) and alerts.log.
+
+Run by hand:  ~/DWS-Studio/alerts/.venv/bin/python ~/DWS-Studio/alerts/watch.py [--force] [--only vortex]
+Thresholds live in THRESHOLDS below. Phone push goes to the ntfy topic in the NTFY_TOPIC env var
+(a GitHub secret); config.json can also set ntfy_topic and mac_banner for local runs.
+"""
+import concurrent.futures as cf
+import datetime as dt
+import json
+import os
+import re
+import subprocess
+import sys
+import urllib.request
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+STATE = HERE / 'state.json'
+LATEST = HERE / 'latest.json'
+LOG = HERE / 'alerts.log'
+UA = 'DWS signal watcher (daveniedbala@gmail.com)'
+UTC = dt.timezone.utc
+
+THRESHOLDS = {
+    'vortex_steps': [20, 40, 60, 80],   # % of GEFS members with easterly 10 hPa 60N wind; alert on each new step
+    'ao_low': -2.0, 'ao_high': 2.5,     # GEFS ensemble-mean AO
+    'nao_low': -1.5,                    # GEFS ensemble-mean NAO
+    'cpc_strong': 70,                   # CPC probability (%) for Buffalo that counts as strong
+    'erie_above_avg': 2.0,              # Lake Erie degrees C above the 1995-2025 average for the date
+}
+INTERVAL_MIN = {'nws': 15, 'cpc': 60, 'aonao': 180, 'erie': 360, 'vortex': 180}
+NWS_EVENTS = re.compile(r'Lake Effect Snow|Winter Storm|Blizzard|Ice Storm|High Wind Warning|Wind Chill Warning|Extreme Cold', re.I)
+BUFFALO = (42.89, -78.88)
+
+
+def get(url, headers=None, timeout=60):
+    req = urllib.request.Request(url, headers={'User-Agent': UA, **(headers or {})})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return r.read()
+
+
+def now():
+    return dt.datetime.now(UTC)
+
+
+def fmt_day(d):
+    return d.strftime('%b %-d')
+
+
+# ---------- checks: each returns (card, [alert messages]) ----------
+
+def check_vortex(state):
+    """Share of GEFS members whose zonal-mean 10 hPa wind at 60N turns easterly (a major SSW)."""
+    import eccodes
+    base = 'https://noaa-gefs-pds.s3.amazonaws.com/gefs.{d}/00/atmos/pgrb2ap5/{m}.t00z.pgrb2a.0p50.f{h:03d}'
+    members = ['gec00'] + [f'gep{i:02d}' for i in range(1, 31)]
+    leads = list(range(24, 385, 24)) + list(range(432, 841, 48))
+    for back in range(3):
+        day = (now() - dt.timedelta(days=back)).strftime('%Y%m%d')
+        try:
+            get(base.format(d=day, m='gep30', h=384) + '.idx', timeout=20)
+            break
+        except Exception:
+            continue
+    else:
+        raise RuntimeError('no complete GEFS 00z run found')
+    run = dt.datetime.strptime(day, '%Y%m%d').replace(tzinfo=UTC)
+    if state.get('vortex', {}).get('run') == day and state['vortex'].get('reach') == 35:
+        return state['vortex']['card'], []
+
+    def u60(m, h):
+        url = base.format(d=day, m=m, h=h)
+        try:
+            idx = get(url + '.idx', timeout=30).decode().splitlines()
+        except Exception:
+            if h > 384:  # the 17-35 day part of the run lands a few hours later
+                return m, h, None
+            raise
+        i = next(n for n, l in enumerate(idx) if ':UGRD:10 mb:' in l)
+        start = int(idx[i].split(':')[1])
+        end = int(idx[i + 1].split(':')[1]) - 1
+        g = eccodes.codes_new_from_message(get(url, {'Range': f'bytes={start}-{end}'}, timeout=60))
+        try:
+            ni = eccodes.codes_get(g, 'Ni')
+            lat0 = eccodes.codes_get(g, 'latitudeOfFirstGridPointInDegrees')
+            dlat = eccodes.codes_get(g, 'jDirectionIncrementInDegrees')
+            row = round(abs(lat0 - 60.0) / dlat)
+            vals = eccodes.codes_get_values(g)[row * ni:(row + 1) * ni]
+            return m, h, float(vals.mean())
+        finally:
+            eccodes.codes_release(g)
+
+    winds = {m: {} for m in members}
+    with cf.ThreadPoolExecutor(12) as ex:
+        for m, h, u in ex.map(lambda a: u60(*a), [(m, h) for m in members for h in leads]):
+            if u is not None:
+                winds[m][h] = u
+    leads = [h for h in leads if all(h in winds[m] for m in members)]
+    reach = leads[-1] // 24
+    first_rev = {}
+    for m, s in winds.items():
+        neg = [h for h in leads if s[h] < 0]
+        if neg:
+            first_rev[m] = neg[0]
+    pct = round(100 * len(first_rev) / len(members))
+    pct16 = round(100 * sum(1 for h in first_rev.values() if h <= 384) / len(members))
+    mean = [round(sum(winds[m][h] for m in members) / len(members), 1) for h in leads]
+    earliest = run + dt.timedelta(hours=min(first_rev.values())) if first_rev else None
+    hist = state.setdefault('vortex_hist', [])
+    hist = [x for x in hist if x['run'] != day][-29:] + [{'run': day, 'pct': pct, 'pct16': pct16}]
+    state['vortex_hist'] = hist
+    prev = hist[-2]['pct'] if len(hist) > 1 else None
+    detail = (f'{pct}% of 31 GEFS members reverse the 10 hPa winds at 60°N within {reach} days '
+              f'({pct16}% within 16 days).' + (f' Earliest: {fmt_day(earliest)}.' if earliest else '')
+              + (f' Yesterday: {prev}%.' if prev is not None else ''))
+    status = 'alert' if pct >= THRESHOLDS['vortex_steps'][0] else 'watch' if pct >= 10 else 'calm'
+    card = {'id': 'vortex', 'icon': '🌪️', 'title': 'Polar vortex split chance', 'value': f'{pct}%',
+            'status': status, 'detail': detail, 'run': f'GEFS {fmt_day(run)} 00z',
+            'series': {'days': [h // 24 for h in leads], 'mean': mean},
+            'url': 'https://www.severe-weather.eu/polar-vortex-forecast/'}
+    alerts = []
+    season = f'{run.year if run.month >= 7 else run.year - 1}'
+    sent = state.setdefault('vortex_steps_sent', {}).setdefault(season, [])
+    for step in THRESHOLDS['vortex_steps']:
+        if pct >= step and step not in sent:
+            sent.append(step)
+            alerts.append(f'🌪️ Polar vortex: {pct}% of GEFS members now flip the 10 hPa winds at 60°N to easterly'
+                          + (f', earliest around {fmt_day(earliest)}' if earliest else '')
+                          + f' (GEFS {fmt_day(run)} 00z).' + (f' Was {prev}% last run.' if prev is not None else ''))
+    alerts = alerts[-1:]  # one message even if several steps jump at once
+    state['vortex'] = {'run': day, 'card': card, 'reach': reach}
+    return card, alerts
+
+
+def check_nws(state):
+    data = json.loads(get('https://api.weather.gov/alerts/active?area=NY', {'Accept': 'application/geo+json'}))
+    hits = [f['properties'] for f in data['features']
+            if 'Buffalo' in (f['properties'].get('senderName') or '') and NWS_EVENTS.search(f['properties']['event'])]
+    seen = set(state.get('nws_seen', []))
+    alerts = []
+    for p in hits:
+        if p['id'] in seen:
+            continue
+        seen.add(p['id'])
+        areas = p.get('areaDesc', '')
+        alerts.append(f"❄️ NWS Buffalo: {p['event']} for {areas[:140]}. {(p.get('headline') or '')[:160]}")
+    state['nws_seen'] = list(seen)[-200:]
+    events = sorted({p['event'] for p in hits})
+    card = {'id': 'nws', 'icon': '❄️', 'title': 'NWS Buffalo watches and warnings',
+            'value': str(len(hits)) if hits else 'None', 'status': 'alert' if hits else 'calm',
+            'detail': ', '.join(events) if hits else 'No winter or wind watches/warnings for WNY right now.',
+            'url': 'https://www.weather.gov/buf/'}
+    return card, alerts
+
+
+def check_aonao(state):
+    cards, alerts = [], []
+    for key, url_part, low, high in [('ao', 'ao.gefs.z1000', THRESHOLDS['ao_low'], THRESHOLDS['ao_high']),
+                                     ('nao', 'nao.gefs.z500', THRESHOLDS['nao_low'], None)]:
+        rows = get(f'https://ftp.cpc.ncep.noaa.gov/cwlinks/norm.daily.{url_part}.120days.csv').decode().splitlines()[1:]
+        rows = [r.split(',') for r in rows if r]
+        init = max(r[2] for r in rows)
+        cur = [r for r in rows if r[2] == init]
+        by_lead = {}
+        for lead, _m, _t, v, valid in cur:
+            by_lead.setdefault(int(lead), (valid, []))[1].append(float(v))
+        mean = {l: (valid, sum(v) / len(v)) for l, (valid, v) in sorted(by_lead.items())}
+        mean = {l: (fmt_day(dt.datetime.strptime(v, '%Y-%m-%d')), x) for l, (v, x) in mean.items()}
+        init = fmt_day(dt.datetime.strptime(init, '%Y-%m-%d'))
+        lo_l = min(mean, key=lambda l: mean[l][1])
+        hi_l = max(mean, key=lambda l: mean[l][1])
+        lo_v, hi_v = mean[lo_l][1], mean[hi_l][1]
+        name = key.upper()
+        status, msg = 'calm', None
+        if lo_v <= low:
+            status = 'alert'
+            msg = f'🥶 {name} tanking: GEFS mean drops to {lo_v:.1f} by {mean[lo_l][0]} (run {init}). Cold air favored for the East.'
+        elif high is not None and hi_v >= high:
+            status = 'alert'
+            msg = f'🔥 {name} soaring: GEFS mean reaches +{hi_v:.1f} by {mean[hi_l][0]} (run {init}). Mild pattern favored.'
+        elif lo_v <= low + 1:
+            status = 'watch'
+        last = state.get(f'{key}_alerted')
+        if msg and last != init:
+            prev_state = state.get(f'{key}_status')
+            if prev_state != 'alert':
+                alerts.append(msg)
+            state[f'{key}_alerted'] = init
+        state[f'{key}_status'] = status
+        cards.append({'id': key, 'icon': '🥶' if lo_v < 0 else '🌤️', 'title': f'{name} forecast (GEFS mean)',
+                      'value': f'{lo_v:+.1f}', 'status': status,
+                      'detail': f'Lowest {lo_v:+.1f} on {mean[lo_l][0]}, highest {hi_v:+.1f}. Run {init}. '
+                                + ('Negative = cold air spills south.' if key == 'ao' else 'Negative = blocking, cold East.'),
+                      'series': {'days': list(mean), 'mean': [round(v, 2) for _, v in mean.values()]},
+                      'url': 'https://www.cpc.ncep.noaa.gov/products/precip/CWlink/daily_ao_index/ao.shtml'})
+    return cards, alerts
+
+
+def check_cpc(state):
+    cards, alerts = [], []
+    for key, svc, label in [('cpc610', 'cpc_6_10_day_outlk', '6–10 day'), ('cpc814', 'cpc_8_14_day_outlk', '8–14 day')]:
+        q = ('https://mapservices.weather.noaa.gov/vector/rest/services/outlooks/' + svc +
+             f'/MapServer/0/query?geometry={BUFFALO[1]},{BUFFALO[0]}&geometryType=esriGeometryPoint&inSR=4326'
+             '&spatialRel=esriSpatialRelIntersects&outFields=fcst_date,start_date,end_date,prob,cat&returnGeometry=false&f=json')
+        feats = json.loads(get(q))['features']
+        a = feats[0]['attributes'] if feats else {'cat': 'Normal', 'prob': 33, 'fcst_date': None, 'start_date': None, 'end_date': None}
+        cat, prob = a['cat'], round(a['prob'] or 33)
+        ms = lambda x: dt.datetime.fromtimestamp(x / 1000, UTC) if x else None
+        span = f"{fmt_day(ms(a['start_date']))}–{fmt_day(ms(a['end_date']))}" if a['start_date'] else ''
+        issued = a['fcst_date']
+        prev = state.get(key)
+        word = {'Above': 'warmer than normal', 'Below': 'colder than normal'}.get(cat, 'near normal')
+        status = 'alert' if cat in ('Above', 'Below') and prob >= THRESHOLDS['cpc_strong'] else 'watch' if cat == 'Below' else 'calm'
+        if prev and issued and prev['issued'] != issued:
+            flipped = {prev['cat'], cat} == {'Above', 'Below'}
+            strong_new = status == 'alert' and not (prev['cat'] == cat and prev['prob'] >= THRESHOLDS['cpc_strong'])
+            if flipped or strong_new:
+                alerts.append(f'🗺️ CPC {label} outlook ({span}) {"flipped" if flipped else "went strong"}: Buffalo now '
+                              f'{prob}% {word} (was {prev["prob"]}% {prev["cat"].lower()}).')
+        if issued:
+            state[key] = {'issued': issued, 'cat': cat, 'prob': prob}
+        cards.append({'id': key, 'icon': '🌡️', 'title': f'CPC {label} temperature, Buffalo', 'value': f'{prob}% {cat.lower()}',
+                      'status': status, 'detail': f'{span}: {prob}% chance {word}.',
+                      'url': 'https://www.cpc.ncep.noaa.gov/products/predictions/' + ('610day/' if key == 'cpc610' else '814day/')})
+    return cards, alerts
+
+
+def erie_history():
+    cache = HERE / 'history' / 'erie-glsea-1995-2025.json'
+    if cache.exists():
+        return json.loads(cache.read_text())
+    out = {}
+    for y in range(1995, 2026):
+        listing = get(f'https://apps.glerl.noaa.gov/coastwatch/ftp/glsea/avgtemps/{y}/').decode()
+        names = re.findall(r'href="(glsea-temps[^"]+\.dat)"', listing)
+        name = next((n for n in names if '1024' in n), names[0])
+        for line in get(f'https://apps.glerl.noaa.gov/coastwatch/ftp/glsea/avgtemps/{y}/{name}').decode().splitlines():
+            p = line.split()
+            if len(p) >= 6 and p[0] == str(y) and p[1].isdigit():
+                out.setdefault(p[1], {})[str(y)] = float(p[5])
+    cache.parent.mkdir(exist_ok=True)
+    cache.write_text(json.dumps(out))
+    return out
+
+
+def check_erie(state):
+    lines = get('https://apps.glerl.noaa.gov/coastwatch/ftp/glsea/avgtemps/glsea-temps_1024_3.dat').decode().splitlines()
+    rows = [l.split() for l in lines if re.match(r'^\d{4} +\d+', l)]
+    y, doy, erie = rows[-1][0], rows[-1][1], float(rows[-1][5])
+    hist = erie_history().get(doy, {})
+    past = list(hist.values())
+    avg = sum(past) / len(past)
+    rec_year, rec = max(hist.items(), key=lambda kv: kv[1])
+    date = dt.datetime.strptime(f'{y} {doy}', '%Y %j')
+    diff = erie - avg
+    f = lambda c: round(c * 9 / 5 + 32)
+    record = erie > rec
+    status = 'alert' if record or diff >= THRESHOLDS['erie_above_avg'] else 'watch' if diff >= 1 else 'calm'
+    alerts = []
+    week = date.strftime('%Y-%W')
+    if status == 'alert' and state.get('erie_alert_week') != week:
+        state['erie_alert_week'] = week
+        alerts.append(f'🌊 Lake Erie {"RECORD warm" if record else "running warm"} for {fmt_day(date)}: {f(erie)}°F, '
+                      f'{diff * 9 / 5:+.0f}°F vs the 1995–2025 average (record for the date: {rec * 9 / 5 + 32:.1f}°F in {rec_year}, now {erie * 9 / 5 + 32:.1f}°F). Extra lake-effect fuel.')
+    card = {'id': 'erie', 'icon': '🌊', 'title': 'Lake Erie water temperature', 'value': f'{f(erie)}°F', 'status': status,
+            'detail': f'{fmt_day(date)}: {diff * 9 / 5:+.1f}°F vs average ({f(avg)}°F). Record for the date: {f(rec)}°F ({rec_year}).',
+            'url': 'https://coastwatch.glerl.noaa.gov/statistics/average-surface-water-temperature-glsea/'}
+    return card, alerts
+
+
+CHECKS = {'vortex': check_vortex, 'nws': check_nws, 'aonao': check_aonao, 'cpc': check_cpc, 'erie': check_erie}
+CARD_IDS = {'vortex': ['vortex'], 'nws': ['nws'], 'aonao': ['ao', 'nao'], 'cpc': ['cpc610', 'cpc814'], 'erie': ['erie']}
+ORDER = ['vortex', 'nws', 'aonao', 'cpc', 'erie']
+
+
+# ---------- delivery ----------
+
+def notify(messages):
+    cfg = json.loads((HERE / 'config.json').read_text()) if (HERE / 'config.json').exists() else {}
+    for m in messages:
+        with LOG.open('a') as fh:
+            fh.write(f'{now().isoformat(timespec="minutes")}  {m}\n')
+        if cfg.get('mac_banner') and sys.platform == 'darwin':
+            subprocess.run(['osascript', '-e', f'display notification {json.dumps(m)} with title "DWS alert" sound name "Glass"'],
+                           check=False)
+        topic = os.environ.get('NTFY_TOPIC') or cfg.get('ntfy_topic')
+        if topic and not os.environ.get('DWS_QUIET'):
+            try:
+                urllib.request.urlopen(urllib.request.Request(
+                    f"https://ntfy.sh/{topic}", data=m.encode(),
+                    headers={'Title': 'DWS alert', 'Tags': 'rotating_light', 'User-Agent': UA}), timeout=30)
+            except Exception as e:
+                print('ntfy failed:', e, file=sys.stderr)
+
+
+def main():
+    force = '--force' in sys.argv
+    only = sys.argv[sys.argv.index('--only') + 1] if '--only' in sys.argv else None
+    state = json.loads(STATE.read_text()) if STATE.exists() else {}
+    latest = json.loads(LATEST.read_text()) if LATEST.exists() else {'cards': {}, 'recent': []}
+    ran = state.setdefault('ran', {})
+    new_alerts = []
+    for name in ORDER:
+        if only and name != only:
+            continue
+        last = ran.get(name)
+        if not force and last and (now() - dt.datetime.fromisoformat(last)).total_seconds() < INTERVAL_MIN[name] * 60:
+            continue
+        try:
+            cards, alerts = CHECKS[name](state)
+            for c in cards if isinstance(cards, list) else [cards]:
+                c['checked'] = now().isoformat(timespec='minutes')
+                latest['cards'][c['id']] = c
+            new_alerts += alerts
+            ran[name] = now().isoformat()
+        except Exception as e:
+            print(f'{name} failed: {e!r}', file=sys.stderr)
+            for cid, c in latest['cards'].items():
+                if cid in CARD_IDS[name]:
+                    c['problem'] = f"Couldn't check at {dt.datetime.now().strftime('%-I:%M %p')}"
+    for m in new_alerts:
+        latest['recent'].insert(0, {'at': now().isoformat(timespec='minutes'), 'text': m})
+    latest['recent'] = latest['recent'][:25]
+    latest['updated'] = now().isoformat(timespec='minutes')
+    STATE.write_text(json.dumps(state, indent=1))
+    LATEST.write_text(json.dumps(latest, indent=1))
+    if new_alerts:
+        notify(new_alerts)
+    # Keep the local board's Alerts strip current (skipped on GitHub)
+    build = HERE.parent / 'tools' / 'build.mjs'
+    if build.exists() and not os.environ.get('CI'):
+        subprocess.run(['/usr/local/bin/node', str(build)], check=False, capture_output=True)
+    print(f'{len(new_alerts)} new alert(s).', *new_alerts, sep='\n')
+
+
+if __name__ == '__main__':
+    main()

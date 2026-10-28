@@ -1,0 +1,206 @@
+{
+ "cards": {
+  "nws": {
+   "id": "nws",
+   "icon": "\u2744\ufe0f",
+   "title": "NWS Buffalo watches and warnings",
+   "value": "None",
+   "status": "calm",
+   "detail": "No winter or wind watches/warnings for WNY right now.",
+   "url": "https://www.weather.gov/buf/",
+   "checked": "2026-10-28T02:14+00:00"
+  },
+  "ao": {
+   "id": "ao",
+   "icon": "\ud83e\udd76",
+   "title": "AO forecast (GEFS mean)",
+   "value": "-1.3",
+   "status": "watch",
+   "detail": "Lowest -1.3 on Nov 4, highest +1.3. Run Oct 27. Negative = cold air spills south.",
+   "series": {
+    "days": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "mean": [
+     1.34,
+     1.29,
+     1.05,
+     1.34,
+     1.22,
+     0.47,
+     -0.55,
+     -1.3,
+     -1.34,
+     -1.29,
+     -1.22,
+     -1.1,
+     -1.06,
+     -0.98,
+     -0.92,
+     -0.9
+    ]
+   },
+   "url": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/daily_ao_index/ao.shtml",
+   "checked": "2026-10-28T02:19+00:00"
+  },
+  "nao": {
+   "id": "nao",
+   "icon": "\ud83e\udd76",
+   "title": "NAO forecast (GEFS mean)",
+   "value": "-0.4",
+   "status": "calm",
+   "detail": "Lowest -0.4 on Nov 11, highest +1.0. Run Oct 27. Negative = blocking, cold East.",
+   "series": {
+    "days": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "mean": [
+     0.45,
+     0.35,
+     0.48,
+     0.82,
+     1.05,
+     0.99,
+     0.57,
+     0.17,
+     0.16,
+     0.19,
+     0.09,
+     -0.01,
+     -0.09,
+     -0.16,
+     -0.27,
+     -0.39
+    ]
+   },
+   "url": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/daily_ao_index/ao.shtml",
+   "checked": "2026-10-28T02:19+00:00"
+  },
+  "cpc610": {
+   "id": "cpc610",
+   "icon": "\ud83c\udf21\ufe0f",
+   "title": "CPC 6\u201310 day temperature, Buffalo",
+   "value": "60% above",
+   "status": "calm",
+   "detail": "Nov 2\u2013Nov 6: 60% chance warmer than normal.",
+   "url": "https://www.cpc.ncep.noaa.gov/products/predictions/610day/",
+   "checked": "2026-10-28T02:15+00:00"
+  },
+  "cpc814": {
+   "id": "cpc814",
+   "icon": "\ud83c\udf21\ufe0f",
+   "title": "CPC 8\u201314 day temperature, Buffalo",
+   "value": "40% above",
+   "status": "calm",
+   "detail": "Nov 4\u2013Nov 10: 40% chance warmer than normal.",
+   "url": "https://www.cpc.ncep.noaa.gov/products/predictions/814day/",
+   "checked": "2026-10-28T02:15+00:00"
+  },
+  "erie": {
+   "id": "erie",
+   "icon": "\ud83c\udf0a",
+   "title": "Lake Erie water temperature",
+   "value": "62\u00b0F",
+   "status": "alert",
+   "detail": "Oct 26: +4.0\u00b0F vs average (58\u00b0F). Record for the date: 62\u00b0F (2017).",
+   "url": "https://coastwatch.glerl.noaa.gov/statistics/average-surface-water-temperature-glsea/",
+   "checked": "2026-10-28T02:19+00:00"
+  },
+  "vortex": {
+   "id": "vortex",
+   "icon": "\ud83c\udf2a\ufe0f",
+   "title": "Polar vortex split chance",
+   "value": "65%",
+   "status": "alert",
+   "detail": "65% of 31 GEFS members reverse the 10 hPa winds at 60\u00b0N within 22 days (65% within 16 days). Earliest: Nov 4. Yesterday: 35%.",
+   "run": "GEFS Oct 27 00z",
+   "series": {
+    "days": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     18,
+     20,
+     22
+    ],
+    "mean": [
+     16.5,
+     14.5,
+     12.1,
+     11.5,
+     10.2,
+     7.2,
+     4.4,
+     2.0,
+     0.9,
+     0.7,
+     0.9,
+     0.5,
+     0.7,
+     1.8,
+     3.8,
+     6.1,
+     10.1,
+     12.8,
+     15.7
+    ]
+   },
+   "url": "https://www.severe-weather.eu/polar-vortex-forecast/",
+   "checked": "2026-10-28T02:18+00:00"
+  }
+ },
+ "recent": [
+  {
+   "at": "2026-10-28T02:19+00:00",
+   "text": "\ud83c\udf0a Lake Erie running warm for Oct 26: 62\u00b0F, +4\u00b0F vs the 1995\u20132025 average (record for the date: 62.1\u00b0F in 2017, now 61.9\u00b0F). Extra lake-effect fuel."
+  },
+  {
+   "at": "2026-10-28T02:18+00:00",
+   "text": "\ud83c\udf2a\ufe0f Polar vortex: 65% of GEFS members now flip the 10 hPa winds at 60\u00b0N to easterly, earliest around Nov 4 (GEFS Oct 27 00z). Was 35% last run."
+  }
+ ],
+ "updated": "2026-10-28T02:19+00:00"
+}
