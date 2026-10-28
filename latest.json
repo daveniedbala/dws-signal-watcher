@@ -8,7 +8,7 @@
    "status": "calm",
    "detail": "Nothing for Western New York right now.",
    "url": "https://www.weather.gov/buf/",
-   "checked": "2026-10-28T15:58+00:00"
+   "checked": "2026-10-28T20:48+00:00"
   },
   "ao": {
    "id": "ao",
@@ -56,7 +56,7 @@
     ]
    },
    "url": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/daily_ao_index/ao.shtml",
-   "checked": "2026-10-28T15:58+00:00"
+   "checked": "2026-10-28T20:48+00:00"
   },
   "nao": {
    "id": "nao",
@@ -104,27 +104,27 @@
     ]
    },
    "url": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/daily_ao_index/ao.shtml",
-   "checked": "2026-10-28T15:58+00:00"
+   "checked": "2026-10-28T20:48+00:00"
   },
   "cpc610": {
    "id": "cpc610",
    "icon": "\ud83c\udf21\ufe0f",
    "title": "NOAA 6\u201310 day outlook for Buffalo",
-   "value": "60% above",
-   "status": "calm",
-   "detail": "Nov 2\u2013Nov 6: 60% chance of being warmer than normal.",
+   "value": "70% above",
+   "status": "alert",
+   "detail": "Nov 3\u2013Nov 7: 70% chance of being warmer than normal.",
    "url": "https://www.cpc.ncep.noaa.gov/products/predictions/610day/",
-   "checked": "2026-10-28T15:59+00:00"
+   "checked": "2026-10-28T20:48+00:00"
   },
   "cpc814": {
    "id": "cpc814",
    "icon": "\ud83c\udf21\ufe0f",
    "title": "NOAA 8\u201314 day outlook for Buffalo",
-   "value": "40% above",
+   "value": "50% above",
    "status": "calm",
-   "detail": "Nov 4\u2013Nov 10: 40% chance of being warmer than normal.",
+   "detail": "Nov 5\u2013Nov 11: 50% chance of being warmer than normal.",
    "url": "https://www.cpc.ncep.noaa.gov/products/predictions/814day/",
-   "checked": "2026-10-28T15:59+00:00"
+   "checked": "2026-10-28T20:48+00:00"
   },
   "erie": {
    "id": "erie",
@@ -183,7 +183,7 @@
     ]
    },
    "url": "https://www.severe-weather.eu/polar-vortex-forecast/",
-   "checked": "2026-10-28T15:58+00:00"
+   "checked": "2026-10-28T20:48+00:00"
   },
   "noreaster": {
    "id": "noreaster",
@@ -191,63 +191,63 @@
    "title": "Nor'easter in the next 10 days?",
    "value": "6%",
    "status": "calm",
-   "detail": "2 of 31 model runs show a strong storm off the Northeast coast around Nov 6. Strongest run: 985 mb (lower = stronger).",
-   "run": "GEFS Oct 28 00z",
+   "detail": "2 of 31 model runs show a strong storm off the Northeast coast around Nov 5. Strongest run: 987 mb (lower = stronger).",
+   "run": "GEFS Oct 28 12z",
    "url": "https://www.wpc.ncep.noaa.gov/",
-   "checked": "2026-10-28T15:59+00:00"
+   "checked": "2026-10-28T20:49+00:00"
   },
   "freeze": {
    "id": "freeze",
    "icon": "\ud83e\uddca",
    "title": "First freeze in Buffalo",
-   "value": "6%",
+   "value": "13%",
    "status": "calm",
-   "detail": "Not yet this fall. 2 of 31 model runs freeze within 10 days, around Nov 6. Coldest run: 32\u00b0F.",
-   "run": "GEFS Oct 28 00z",
+   "detail": "Not yet this fall. 4 of 31 model runs freeze within 10 days, around Nov 6. Coldest run: 26\u00b0F.",
+   "run": "GEFS Oct 28 12z",
    "url": "https://www.weather.gov/buf/",
-   "checked": "2026-10-28T15:59+00:00"
+   "checked": "2026-10-28T20:49+00:00"
   },
   "arctic": {
    "id": "arctic",
    "icon": "\ud83e\udd76",
    "title": "Arctic air over Buffalo?",
-   "value": "0%",
+   "value": "3%",
    "status": "calm",
-   "detail": "0 of 31 model runs bring air colder than 14\u00b0F about 5,000 ft up in the next 10 days. Coldest run: 17\u00b0F up there.",
-   "run": "GEFS Oct 28 00z",
+   "detail": "1 of 31 model runs bring air colder than 14\u00b0F about 5,000 ft up around Nov 5. Coldest run: 12\u00b0F up there.",
+   "run": "GEFS Oct 28 12z",
    "url": "https://www.weather.gov/buf/",
-   "checked": "2026-10-28T15:59+00:00"
+   "checked": "2026-10-28T20:49+00:00"
   },
   "lakeeffect": {
    "id": "lakeeffect",
    "icon": "\u2744\ufe0f",
    "title": "Lake-effect snow setup?",
-   "value": "10%",
-   "status": "calm",
-   "detail": "3 of 31 model runs get cold enough over Lake Erie (62\u00b0F water) for lake-effect snow around Nov 5. 100% show lake-effect rain showers.",
-   "run": "GEFS Oct 28 00z",
+   "value": "16%",
+   "status": "watch",
+   "detail": "5 of 31 model runs get cold enough over Lake Erie (62\u00b0F water) for lake-effect snow around Nov 6. 100% show lake-effect rain showers.",
+   "run": "GEFS Oct 28 12z",
    "url": "https://www.weather.gov/buf/",
-   "checked": "2026-10-28T15:59+00:00"
+   "checked": "2026-10-28T20:49+00:00"
   },
   "seiche": {
    "id": "seiche",
    "icon": "\ud83d\udec1",
    "title": "Lake Erie seiche (sloshing) now",
-   "value": "-0.6 ft",
+   "value": "-0.5 ft",
    "status": "calm",
-   "detail": "Buffalo water level minus Toledo: -0.6 ft (Buffalo 2.0 ft above low water). 6+ ft difference = a big seiche.",
+   "detail": "Buffalo water level minus Toledo: -0.5 ft (Buffalo 2.1 ft above low water). 6+ ft difference = a big seiche.",
    "url": "https://tidesandcurrents.noaa.gov/waterlevels.html?id=9063020",
-   "checked": "2026-10-28T15:59+00:00"
+   "checked": "2026-10-28T20:49+00:00"
   },
   "waves": {
    "id": "waves",
    "icon": "\ud83c\udf0a",
    "title": "Lake Erie waves now",
-   "value": "1 ft",
+   "value": "0 ft",
    "status": "calm",
-   "detail": "Eastern Lake Erie buoy: 0.7 ft waves. 8+ ft = big wave day.",
+   "detail": "Eastern Lake Erie buoy: 0.3 ft waves. 8+ ft = big wave day.",
    "url": "https://www.ndbc.noaa.gov/station_page.php?station=45142",
-   "checked": "2026-10-28T15:59+00:00"
+   "checked": "2026-10-28T20:49+00:00"
   },
   "aurora": {
    "id": "aurora",
@@ -257,7 +257,7 @@
    "status": "watch",
    "detail": "Highest forecast: Kp 5.0 around Oct 31. Kp 6+ = maybe visible from WNY, 7+ = good chance.",
    "url": "https://www.swpc.noaa.gov/products/aurora-30-minute-forecast",
-   "checked": "2026-10-28T15:59+00:00"
+   "checked": "2026-10-28T20:49+00:00"
   },
   "storms": {
    "id": "storms",
@@ -267,7 +267,7 @@
    "status": "calm",
    "detail": "No thunderstorms expected in the next 3 days.",
    "url": "https://www.spc.noaa.gov/products/outlook/",
-   "checked": "2026-10-28T15:59+00:00"
+   "checked": "2026-10-28T20:49+00:00"
   },
   "seichewind": {
    "id": "seichewind",
@@ -275,21 +275,21 @@
    "title": "Seiche / big-wave wind coming?",
    "value": "0%",
    "status": "calm",
-   "detail": "0 of 31 model runs blow SW winds of 35+ mph down Lake Erie in the next 10 days. Strongest run: 40 mph.",
-   "run": "GEFS Oct 28 00z",
+   "detail": "0 of 31 model runs blow SW winds of 35+ mph down Lake Erie in the next 10 days. Strongest run: 41 mph.",
+   "run": "GEFS Oct 28 12z",
    "url": "https://tidesandcurrents.noaa.gov/waterlevels.html?id=9063020",
-   "checked": "2026-10-28T15:59+00:00"
+   "checked": "2026-10-28T20:49+00:00"
   },
   "seasmoke": {
    "id": "seasmoke",
    "icon": "\ud83c\udf2b\ufe0f",
    "title": "Sea smoke (lake steam) mornings",
-   "value": "3%",
+   "value": "13%",
    "status": "calm",
-   "detail": "Needs Buffalo at 32\u00b0F or colder over 62\u00b0F water. 1 of 31 model runs get there around Nov 6.",
-   "run": "GEFS Oct 28 00z",
+   "detail": "Needs Buffalo at 32\u00b0F or colder over 62\u00b0F water. 4 of 31 model runs get there around Nov 6.",
+   "run": "GEFS Oct 28 12z",
    "url": "https://www.weather.gov/buf/",
-   "checked": "2026-10-28T15:59+00:00"
+   "checked": "2026-10-28T20:49+00:00"
   },
   "fallsice": {
    "id": "fallsice",
@@ -298,12 +298,16 @@
    "value": "0%",
    "status": "calm",
    "detail": "0 of 31 model runs bring 3 straight nights at 10\u00b0F or colder in the next 10 days.",
-   "run": "GEFS Oct 28 00z",
+   "run": "GEFS Oct 28 12z",
    "url": "https://www.niagarafallsstatepark.com/",
-   "checked": "2026-10-28T15:59+00:00"
+   "checked": "2026-10-28T20:49+00:00"
   }
  },
  "recent": [
+  {
+   "at": "2026-10-28T20:49+00:00",
+   "text": "\ud83d\uddfa\ufe0f NOAA's forecast for Nov 3\u2013Nov 7 got more confident: Buffalo now has a 70% chance of being warmer than normal (before: 60% chance warmer than normal). This comes from NOAA's Climate Prediction Center, which forecasts whether the weeks ahead will run warmer or colder than usual."
+  },
   {
    "at": "2026-10-28T02:59+00:00",
    "text": "\ud83c\udf0a Lake Erie is unusually warm for Oct 26: 61.9\u00b0F, about 4\u00b0F warmer than normal. The record for this date is 62.1\u00b0F (2017). Warm lake water is fuel for lake-effect snow: when cold air blows over it, the lake adds heat and moisture, which can build heavier snow bands."
@@ -313,5 +317,5 @@
    "text": "\ud83c\udf2a\ufe0f The polar vortex may break down. The polar vortex is a huge spinning wind high above the Arctic that usually keeps the coldest air locked up north. In 20 of 31 runs of the American weather model (65%), that spin stops and reverses, as early as Nov 4. When that happens, Arctic air often spills south 1 to 3 weeks later, which can mean cold and snow for Buffalo. Yesterday it was 35%."
   }
  ],
- "updated": "2026-10-28T15:59+00:00"
+ "updated": "2026-10-28T20:49+00:00"
 }
