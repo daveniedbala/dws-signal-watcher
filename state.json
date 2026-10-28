@@ -1,10 +1,10 @@
 {
  "ran": {
-  "nws": "2026-10-28T02:50:04.738454+00:00",
-  "aonao": "2026-10-28T02:19:48.968806+00:00",
-  "cpc": "2026-10-28T02:15:00.015726+00:00",
-  "erie": "2026-10-28T02:19:49.574571+00:00",
-  "vortex": "2026-10-28T02:18:21.162218+00:00"
+  "vortex": "2026-10-28T02:59:51.709226+00:00",
+  "nws": "2026-10-28T02:59:51.846051+00:00",
+  "aonao": "2026-10-28T02:59:53.144658+00:00",
+  "cpc": "2026-10-28T02:59:53.601303+00:00",
+  "erie": "2026-10-28T02:59:54.043291+00:00"
  },
  "nws_seen": [],
  "ao_status": "watch",
@@ -43,10 +43,10 @@
   "card": {
    "id": "vortex",
    "icon": "\ud83c\udf2a\ufe0f",
-   "title": "Polar vortex split chance",
+   "title": "Will the polar vortex break down?",
    "value": "65%",
    "status": "alert",
-   "detail": "65% of 31 GEFS members reverse the 10 hPa winds at 60\u00b0N within 22 days (65% within 16 days). Earliest: Nov 4. Yesterday: 35%.",
+   "detail": "In 20 of 31 runs of the American weather model, the spinning winds over the Arctic stop and reverse within 30 days, as early as Nov 4. That can send Arctic air south 1 to 3 weeks later. Yesterday: 35%.",
    "run": "GEFS Oct 27 00z",
    "series": {
     "days": [
@@ -68,7 +68,11 @@
      16,
      18,
      20,
-     22
+     22,
+     24,
+     26,
+     28,
+     30
     ],
     "mean": [
      16.5,
@@ -89,13 +93,17 @@
      6.1,
      10.1,
      12.8,
-     15.7
+     15.7,
+     19.1,
+     23.8,
+     26.7,
+     29.2
     ]
    },
    "url": "https://www.severe-weather.eu/polar-vortex-forecast/",
-   "checked": "2026-10-28T02:18+00:00"
+   "checked": "2026-10-28T02:59+00:00"
   },
-  "reach": 22
+  "reach": 30
  },
  "erie_alert_week": "2026-43"
 }

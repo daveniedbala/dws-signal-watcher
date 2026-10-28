@@ -115,11 +115,13 @@ def check_vortex(state):
     hist = [x for x in hist if x['run'] != day][-29:] + [{'run': day, 'pct': pct, 'pct16': pct16}]
     state['vortex_hist'] = hist
     prev = hist[-2]['pct'] if len(hist) > 1 else None
-    detail = (f'{pct}% of 31 GEFS members reverse the 10 hPa winds at 60°N within {reach} days '
-              f'({pct16}% within 16 days).' + (f' Earliest: {fmt_day(earliest)}.' if earliest else '')
+    n = len(first_rev)
+    soonest = f', as early as {fmt_day(earliest)}' if earliest else ''
+    detail = (f'In {n} of 31 runs of the American weather model, the spinning winds over the Arctic stop and reverse '
+              f'within {reach} days{soonest}. That can send Arctic air south 1 to 3 weeks later.'
               + (f' Yesterday: {prev}%.' if prev is not None else ''))
     status = 'alert' if pct >= THRESHOLDS['vortex_steps'][0] else 'watch' if pct >= 10 else 'calm'
-    card = {'id': 'vortex', 'icon': '🌪️', 'title': 'Polar vortex split chance', 'value': f'{pct}%',
+    card = {'id': 'vortex', 'icon': '🌪️', 'title': 'Will the polar vortex break down?', 'value': f'{pct}%',
             'status': status, 'detail': detail, 'run': f'GEFS {fmt_day(run)} 00z',
             'series': {'days': [h // 24 for h in leads], 'mean': mean},
             'url': 'https://www.severe-weather.eu/polar-vortex-forecast/'}
@@ -129,9 +131,11 @@ def check_vortex(state):
     for step in THRESHOLDS['vortex_steps']:
         if pct >= step and step not in sent:
             sent.append(step)
-            alerts.append(f'🌪️ Polar vortex: {pct}% of GEFS members now flip the 10 hPa winds at 60°N to easterly'
-                          + (f', earliest around {fmt_day(earliest)}' if earliest else '')
-                          + f' (GEFS {fmt_day(run)} 00z).' + (f' Was {prev}% last run.' if prev is not None else ''))
+            alerts.append(f'🌪️ The polar vortex may break down. The polar vortex is a huge spinning wind high above the Arctic '
+                          f'that usually keeps the coldest air locked up north. In {n} of 31 runs of the American weather model '
+                          f'({pct}%), that spin stops and reverses{soonest}. When that happens, Arctic air often spills south '
+                          f'1 to 3 weeks later, which can mean cold and snow for Buffalo.'
+                          + (f' Yesterday it was {prev}%.' if prev is not None else ''))
     alerts = alerts[-1:]  # one message even if several steps jump at once
     state['vortex'] = {'run': day, 'card': card, 'reach': reach}
     return card, alerts
@@ -148,14 +152,21 @@ def check_nws(state):
             continue
         seen.add(p['id'])
         areas = p.get('areaDesc', '')
-        alerts.append(f"❄️ NWS Buffalo: {p['event']} for {areas[:140]}. {(p.get('headline') or '')[:160]}")
+        meaning = ('A watch means it could get dangerous, so get ready.' if 'Watch' in p['event'] else
+                   'A warning means it is happening or about to, so act now.' if 'Warning' in p['event'] else '')
+        alerts.append(f"❄️ The National Weather Service in Buffalo just issued a {p['event']} for {areas[:140]}. {meaning}")
     state['nws_seen'] = list(seen)[-200:]
     events = sorted({p['event'] for p in hits})
-    card = {'id': 'nws', 'icon': '❄️', 'title': 'NWS Buffalo watches and warnings',
+    card = {'id': 'nws', 'icon': '❄️', 'title': 'Weather Service watches and warnings',
             'value': str(len(hits)) if hits else 'None', 'status': 'alert' if hits else 'calm',
-            'detail': ', '.join(events) if hits else 'No winter or wind watches/warnings for WNY right now.',
+            'detail': ', '.join(events) if hits else 'Nothing for Western New York right now.',
             'url': 'https://www.weather.gov/buf/'}
     return card, alerts
+
+
+EXPLAIN = {'ao': 'The Arctic Oscillation (AO) measures how tightly cold air is held around the North Pole.',
+           'nao': 'The North Atlantic Oscillation (NAO) measures the air pressure pattern over the Atlantic Ocean.'}
+TITLES = {'ao': 'Arctic Oscillation: is cold air escaping?', 'nao': 'North Atlantic Oscillation: is cold air steered our way?'}
 
 
 def check_aonao(state):
@@ -179,10 +190,13 @@ def check_aonao(state):
         status, msg = 'calm', None
         if lo_v <= low:
             status = 'alert'
-            msg = f'🥶 {name} tanking: GEFS mean drops to {lo_v:.1f} by {mean[lo_l][0]} (run {init}). Cold air favored for the East.'
+            msg = (f'🥶 Cold pattern coming? {EXPLAIN[key]} The American model\'s average drops to {lo_v:.1f} by {mean[lo_l][0]}. '
+                   + ('A big negative number means the cold air is loosening and can spill south into the eastern U.S.' if key == 'ao' else
+                      'A negative number often means a jam in the jet stream that steers cold air into the Great Lakes and East Coast.'))
         elif high is not None and hi_v >= high:
             status = 'alert'
-            msg = f'🔥 {name} soaring: GEFS mean reaches +{hi_v:.1f} by {mean[hi_l][0]} (run {init}). Mild pattern favored.'
+            msg = (f'🌤️ Mild pattern coming? {EXPLAIN[key]} The American model\'s average rises to +{hi_v:.1f} by {mean[hi_l][0]}. '
+                   'A big positive number means the cold air stays locked up near the North Pole, so the East tends to stay mild.')
         elif lo_v <= low + 1:
             status = 'watch'
         last = state.get(f'{key}_alerted')
@@ -192,10 +206,11 @@ def check_aonao(state):
                 alerts.append(msg)
             state[f'{key}_alerted'] = init
         state[f'{key}_status'] = status
-        cards.append({'id': key, 'icon': '🥶' if lo_v < 0 else '🌤️', 'title': f'{name} forecast (GEFS mean)',
+        cards.append({'id': key, 'icon': '🥶' if lo_v < 0 else '🌤️', 'title': TITLES[key],
                       'value': f'{lo_v:+.1f}', 'status': status,
-                      'detail': f'Lowest {lo_v:+.1f} on {mean[lo_l][0]}, highest {hi_v:+.1f}. Run {init}. '
-                                + ('Negative = cold air spills south.' if key == 'ao' else 'Negative = blocking, cold East.'),
+                      'detail': f'Model average goes as low as {lo_v:+.1f} ({mean[lo_l][0]}) and as high as {hi_v:+.1f}. '
+                                + ('Below -2 = cold air can escape south. Above +2.5 = cold stays up north.' if key == 'ao' else
+                                   'Below -1.5 = cold air gets steered into the East.'),
                       'series': {'days': list(mean), 'mean': [round(v, 2) for _, v in mean.values()]},
                       'url': 'https://www.cpc.ncep.noaa.gov/products/precip/CWlink/daily_ao_index/ao.shtml'})
     return cards, alerts
@@ -220,12 +235,14 @@ def check_cpc(state):
             flipped = {prev['cat'], cat} == {'Above', 'Below'}
             strong_new = status == 'alert' and not (prev['cat'] == cat and prev['prob'] >= THRESHOLDS['cpc_strong'])
             if flipped or strong_new:
-                alerts.append(f'🗺️ CPC {label} outlook ({span}) {"flipped" if flipped else "went strong"}: Buffalo now '
-                              f'{prob}% {word} (was {prev["prob"]}% {prev["cat"].lower()}).')
+                was = {'Above': 'warmer than normal', 'Below': 'colder than normal'}.get(prev['cat'], 'near normal')
+                alerts.append(f'🗺️ NOAA\'s forecast for {span} {"just flipped" if flipped else "got more confident"}: Buffalo now has a '
+                              f'{prob}% chance of being {word} (before: {prev["prob"]}% chance {was}). This comes from NOAA\'s '
+                              'Climate Prediction Center, which forecasts whether the weeks ahead will run warmer or colder than usual.')
         if issued:
             state[key] = {'issued': issued, 'cat': cat, 'prob': prob}
-        cards.append({'id': key, 'icon': '🌡️', 'title': f'CPC {label} temperature, Buffalo', 'value': f'{prob}% {cat.lower()}',
-                      'status': status, 'detail': f'{span}: {prob}% chance {word}.',
+        cards.append({'id': key, 'icon': '🌡️', 'title': f'NOAA {label} outlook for Buffalo', 'value': f'{prob}% {cat.lower()}',
+                      'status': status, 'detail': f'{span}: {prob}% chance of being {word}.',
                       'url': 'https://www.cpc.ncep.noaa.gov/products/predictions/' + ('610day/' if key == 'cpc610' else '814day/')})
     return cards, alerts
 
@@ -265,10 +282,13 @@ def check_erie(state):
     week = date.strftime('%Y-%W')
     if status == 'alert' and state.get('erie_alert_week') != week:
         state['erie_alert_week'] = week
-        alerts.append(f'🌊 Lake Erie {"RECORD warm" if record else "running warm"} for {fmt_day(date)}: {f(erie)}°F, '
-                      f'{diff * 9 / 5:+.0f}°F vs the 1995–2025 average (record for the date: {rec * 9 / 5 + 32:.1f}°F in {rec_year}, now {erie * 9 / 5 + 32:.1f}°F). Extra lake-effect fuel.')
+        alerts.append(f'🌊 Lake Erie is {"at a new record" if record else "unusually"} warm for {fmt_day(date)}: '
+                      f'{erie * 9 / 5 + 32:.1f}°F, about {diff * 9 / 5:.0f}°F warmer than normal. The record for this date is '
+                      f'{rec * 9 / 5 + 32:.1f}°F ({rec_year}). Warm lake water is fuel for lake-effect snow: when cold air blows '
+                      'over it, the lake adds heat and moisture, which can build heavier snow bands.')
     card = {'id': 'erie', 'icon': '🌊', 'title': 'Lake Erie water temperature', 'value': f'{f(erie)}°F', 'status': status,
-            'detail': f'{fmt_day(date)}: {diff * 9 / 5:+.1f}°F vs average ({f(avg)}°F). Record for the date: {f(rec)}°F ({rec_year}).',
+            'detail': f'{fmt_day(date)}: {diff * 9 / 5:.0f}°F warmer than normal ({f(avg)}°F). Record for the date: '
+                      f'{rec * 9 / 5 + 32:.1f}°F ({rec_year}). Warmer water = more fuel for lake-effect snow.',
             'url': 'https://coastwatch.glerl.noaa.gov/statistics/average-surface-water-temperature-glsea/'}
     return card, alerts
 
