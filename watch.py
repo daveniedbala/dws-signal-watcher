@@ -31,9 +31,11 @@ THRESHOLDS = {
     'ao_low': -2.0, 'ao_high': 2.5,     # GEFS ensemble-mean AO
     'nao_low': -1.5,                    # GEFS ensemble-mean NAO
     'cpc_strong': 70,                   # CPC probability (%) for Buffalo that counts as strong
-    'erie_above_avg': 2.0,              # Lake Erie degrees C above the 1995-2025 average for the date
+    'erie_above_avg': 2.0,
+    'noreaster_mb': 990,                # low pressure off the Northeast coast
+    'arctic_850c': -10,                 # 850 mb (about 5,000 ft) temperature over Buffalo              # Lake Erie degrees C above the 1995-2025 average for the date
 }
-INTERVAL_MIN = {'nws': 15, 'cpc': 60, 'aonao': 180, 'erie': 360, 'vortex': 180}
+INTERVAL_MIN = {'nws': 15, 'cpc': 60, 'aonao': 180, 'erie': 360, 'vortex': 180, 'gefs10': 60}
 NWS_EVENTS = re.compile(r'Lake Effect Snow|Winter Storm|Blizzard|Ice Storm|High Wind Warning|Wind Chill Warning|Extreme Cold', re.I)
 BUFFALO = (42.89, -78.88)
 
@@ -274,6 +276,7 @@ def check_erie(state):
     avg = sum(past) / len(past)
     rec_year, rec = max(hist.items(), key=lambda kv: kv[1])
     date = dt.datetime.strptime(f'{y} {doy}', '%Y %j')
+    state['erie_c'] = erie
     diff = erie - avg
     f = lambda c: round(c * 9 / 5 + 32)
     record = erie > rec
@@ -293,9 +296,170 @@ def check_erie(state):
     return card, alerts
 
 
-CHECKS = {'vortex': check_vortex, 'nws': check_nws, 'aonao': check_aonao, 'cpc': check_cpc, 'erie': check_erie}
-CARD_IDS = {'vortex': ['vortex'], 'nws': ['nws'], 'aonao': ['ao', 'nao'], 'cpc': ['cpc610', 'cpc814'], 'erie': ['erie']}
-ORDER = ['vortex', 'nws', 'aonao', 'cpc', 'erie']
+def event_steps(state, key, pct, steps, reset_below=15):
+    """Return the highest new step crossed for an event; forget sent steps once the signal fades."""
+    sent = state.setdefault('steps_sent', {}).setdefault(key, [])
+    if pct < reset_below:
+        sent.clear()
+        return None
+    new = [s for s in steps if pct >= s and s not in sent]
+    sent.extend(new)
+    return new[-1] if new else None
+
+
+def check_storms_cold(state):
+    """One pass over the GEFS 10-day forecast: nor'easters, Buffalo's first freeze, Arctic air, lake-effect setups."""
+    import eccodes
+    import numpy as np
+    base = 'https://noaa-gefs-pds.s3.amazonaws.com/gefs.{d}/{c}/atmos/pgrb2ap5/{m}.t{c}z.pgrb2a.0p50.f{h:03d}'
+    members = ['gec00'] + [f'gep{i:02d}' for i in range(1, 31)]
+    leads = list(range(12, 241, 12))
+    for back in range(0, 48, 12):
+        t = now() - dt.timedelta(hours=back + 5)
+        run = t.replace(hour=0 if t.hour < 12 else 12, minute=0, second=0, microsecond=0)
+        day, cyc = run.strftime('%Y%m%d'), run.strftime('%H')
+        try:
+            get(base.format(d=day, c=cyc, m='gep30', h=240) + '.idx', timeout=20)
+            break
+        except Exception:
+            continue
+    else:
+        raise RuntimeError('no complete GEFS run found')
+    key = f'{day}{cyc}'
+    if state.get('gefs10', {}).get('run') == key:
+        return state['gefs10']['cards'], []
+
+    def grab(m, h):
+        url = base.format(d=day, c=cyc, m=m, h=h)
+        idx = get(url + '.idx', timeout=30).decode().splitlines()
+        out = {}
+        for tag in (':PRMSL:mean sea level:', ':TMP:850 mb:', ':TMIN:2 m above ground:'):
+            i = next(n for n, l in enumerate(idx) if tag in l)
+            a = int(idx[i].split(':')[1])
+            b = int(idx[i + 1].split(':')[1]) - 1 if i + 1 < len(idx) else ''
+            g = eccodes.codes_new_from_message(get(url, {'Range': f'bytes={a}-{b}'}, timeout=60))
+            try:
+                ni, nj = eccodes.codes_get(g, 'Ni'), eccodes.codes_get(g, 'Nj')
+                v = eccodes.codes_get_values(g).reshape(nj, ni)  # rows from 90N south, columns from 0E east, 0.5 deg
+            finally:
+                eccodes.codes_release(g)
+            row = lambda lat: round((90 - lat) / 0.5)
+            col = lambda lon: round((lon % 360) / 0.5)
+            if 'PRMSL' in tag:
+                box = v[row(45):row(35) + 1, col(-76):col(-65) + 1]
+                out['slp'] = float(box.min()) / 100
+            elif 'TMP:850' in tag:
+                out['t850'] = float(v[row(43), col(-79)]) - 273.15
+            else:
+                out['tmin'] = (float(v[row(43), col(-79)]) - 273.15) * 9 / 5 + 32
+        return m, h, out
+
+    data = {m: {} for m in members}
+    with cf.ThreadPoolExecutor(12) as ex:
+        for m, h, o in ex.map(lambda a: grab(*a), [(m, h) for m in members for h in leads]):
+            data[m][h] = o
+    when = lambda h: run + dt.timedelta(hours=h)
+    nmem = len(members)
+
+    def first_hit(test, hours=leads):
+        hits = {}
+        for m in members:
+            hs = [h for h in hours if test(data[m][h])]
+            if hs:
+                hits[m] = hs[0]
+        return hits, round(100 * len(hits) / nmem)
+
+    cards, alerts = [], []
+    tag = f'GEFS {fmt_day(run)} {cyc}z'
+
+    # Nor'easter: a low under 990 mb off the Northeast coast (35-45N, 76-65W)
+    hits, pct = first_hit(lambda o: o['slp'] < THRESHOLDS['noreaster_mb'])
+    deepest = min(data[m][h]['slp'] for m in members for h in leads)
+    soon = f'around {fmt_day(when(sorted(hits.values())[len(hits) // 2]))}' if hits else ''
+    step = event_steps(state, 'noreaster', pct, [30, 50, 70])
+    if step:
+        alerts.append(f'🌀 Nor\'easter signal. A nor\'easter is a strong storm that spins up off the East Coast and pulls '
+                      f'in wind, rain and snow from the northeast. In {len(hits)} of 31 runs of the American weather model '
+                      f'({pct}%), a powerful storm (pressure below {THRESHOLDS["noreaster_mb"]} mb) forms off New England '
+                      f'{soon}. Lower pressure means a stronger storm; the strongest run drops to {deepest:.0f} mb.')
+    cards.append({'id': 'noreaster', 'icon': '🌀', 'title': "Nor'easter in the next 10 days?", 'value': f'{pct}%',
+                  'status': 'alert' if pct >= 30 else 'watch' if pct >= 10 else 'calm',
+                  'detail': (f'{len(hits)} of 31 model runs show a strong storm off the Northeast coast {soon}. '
+                             if hits else 'No model runs show a strong storm off the Northeast coast. ')
+                            + f'Strongest run: {deepest:.0f} mb (lower = stronger).',
+                  'run': tag, 'url': 'https://www.wpc.ncep.noaa.gov/'})
+
+    # First freeze at Buffalo (TMIN windows ending at 12z cover the overnight low)
+    nights = [h for h in leads if when(h).hour == 12]
+    hits, pct = first_hit(lambda o: o['tmin'] <= 32, nights)
+    season = str(run.year if run.month >= 7 else run.year - 1)
+    frozen = state.get('freeze_seen', {}).get(season)
+    if not frozen:
+        try:
+            obs = json.loads(get(f'https://data.rcc-acis.org/StnData?sid=BUF&sdate={season}-08-01&edate={run:%Y-%m-%d}&elems=mint'))
+            frz = [d for d, v in obs['data'] if v not in ('M', 'T', 'S') and float(v.rstrip('A')) <= 32]
+            if frz:
+                frozen = frz[0]
+                state.setdefault('freeze_seen', {})[season] = frozen
+        except Exception:
+            pass
+    first = when(sorted(hits.values())[len(hits) // 2]) if hits else None
+    coldest = min(data[m][h]['tmin'] for m in members for h in nights)
+    if not frozen and pct >= 50 and state.get('freeze_alerted') != season:
+        state['freeze_alerted'] = season
+        alerts.append(f'🧊 First freeze coming to Buffalo. Buffalo hasn\'t dropped to 32°F yet this fall. In {len(hits)} of '
+                      f'31 runs of the American weather model ({pct}%), it freezes around {fmt_day(first)}. The first freeze '
+                      'ends the growing season: frost kills off gardens and tender plants.')
+    cards.append({'id': 'freeze', 'icon': '🧊', 'title': 'First freeze in Buffalo', 'value': 'Done' if frozen else f'{pct}%',
+                  'status': 'calm' if frozen else 'alert' if pct >= 50 else 'watch' if pct >= 20 else 'calm',
+                  'detail': (f'Buffalo first hit 32°F on {fmt_day(dt.datetime.strptime(frozen, "%Y-%m-%d"))}. ' if frozen else
+                             f'Not yet this fall. {len(hits)} of 31 model runs freeze within 10 days'
+                             + (f', around {fmt_day(first)}. ' if first else '. '))
+                            + f'Coldest run: {coldest:.0f}°F.',
+                  'run': tag, 'url': 'https://www.weather.gov/buf/'})
+
+    # Arctic air: air about 5,000 ft up colder than -10C (14F) over Buffalo
+    hits, pct = first_hit(lambda o: o['t850'] <= THRESHOLDS['arctic_850c'])
+    coldest850 = min(data[m][h]['t850'] for m in members for h in leads)
+    soon = f'around {fmt_day(when(sorted(hits.values())[len(hits) // 2]))}' if hits else ''
+    step = event_steps(state, 'arctic', pct, [50, 80])
+    if step:
+        alerts.append(f'🥶 Arctic blast heading for Buffalo. In {len(hits)} of 31 runs of the American weather model ({pct}%), '
+                      f'air about 5,000 feet up turns colder than 14°F (-10°C) over Buffalo {soon}. Air that cold up high '
+                      'usually means a real taste of winter at the ground, and often lake-effect snow.')
+    cards.append({'id': 'arctic', 'icon': '🥶', 'title': 'Arctic air over Buffalo?', 'value': f'{pct}%',
+                  'status': 'alert' if pct >= 50 else 'watch' if pct >= 20 else 'calm',
+                  'detail': f'{len(hits)} of 31 model runs bring air colder than 14°F about 5,000 ft up {soon or "in the next 10 days"}. '
+                            f'Coldest run: {coldest850 * 9 / 5 + 32:.0f}°F up there.',
+                  'run': tag, 'url': 'https://www.weather.gov/buf/'})
+
+    # Lake-effect setup: lake water at least 13C warmer than the air ~5,000 ft up; snow needs that air below about -5C (23F)
+    lake = state.get('erie_c')
+    if lake is not None:
+        hits, pct = first_hit(lambda o: lake - o['t850'] >= 13 and o['t850'] <= -5)
+        _, pct_any = first_hit(lambda o: lake - o['t850'] >= 13)
+        soon = f'around {fmt_day(when(sorted(hits.values())[len(hits) // 2]))}' if hits else ''
+        step = event_steps(state, 'lakeeffect', pct, [40, 70])
+        if step:
+            alerts.append(f'❄️ Lake-effect snow setup. When cold air flows over the warmer lake, the lake heats and moistens it, '
+                          'and it rises into snow bands. Forecasters look for the lake to be about 23°F (13°C) warmer than the '
+                          f'air 5,000 feet up, with that air cold enough for snow. In {len(hits)} of 31 runs of the American '
+                          f'weather model ({pct}%), that happens over Lake Erie {soon}. Wind direction decides who gets buried.')
+        cards.append({'id': 'lakeeffect', 'icon': '❄️', 'title': 'Lake-effect snow setup?', 'value': f'{pct}%',
+                      'status': 'alert' if pct >= 40 else 'watch' if pct >= 15 else 'calm',
+                      'detail': (f'{len(hits)} of 31 model runs get cold enough over Lake Erie ({lake * 9 / 5 + 32:.0f}°F water) '
+                                 f'for lake-effect snow {soon}. ' if hits else
+                                 f'No model runs get cold enough for lake-effect snow yet ({lake * 9 / 5 + 32:.0f}°F water). ')
+                                + (f'{pct_any}% show lake-effect rain showers.' if pct_any else ''),
+                      'run': tag, 'url': 'https://www.weather.gov/buf/'})
+
+    state['gefs10'] = {'run': key, 'cards': cards}
+    return cards, alerts
+
+
+CHECKS = {'vortex': check_vortex, 'nws': check_nws, 'aonao': check_aonao, 'cpc': check_cpc, 'erie': check_erie, 'gefs10': check_storms_cold}
+CARD_IDS = {'vortex': ['vortex'], 'nws': ['nws'], 'aonao': ['ao', 'nao'], 'cpc': ['cpc610', 'cpc814'], 'erie': ['erie'], 'gefs10': ['noreaster', 'freeze', 'arctic', 'lakeeffect']}
+ORDER = ['vortex', 'nws', 'aonao', 'cpc', 'erie', 'gefs10']
 
 
 # ---------- delivery ----------

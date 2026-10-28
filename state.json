@@ -4,7 +4,8 @@
   "nws": "2026-10-28T02:59:51.846051+00:00",
   "aonao": "2026-10-28T02:59:53.144658+00:00",
   "cpc": "2026-10-28T02:59:53.601303+00:00",
-  "erie": "2026-10-28T02:59:54.043291+00:00"
+  "erie": "2026-10-28T03:06:33.997955+00:00",
+  "gefs10": "2026-10-28T03:12:54.418898+00:00"
  },
  "nws_seen": [],
  "ao_status": "watch",
@@ -105,5 +106,60 @@
   },
   "reach": 30
  },
- "erie_alert_week": "2026-43"
+ "erie_alert_week": "2026-43",
+ "erie_c": 16.61,
+ "steps_sent": {
+  "noreaster": [],
+  "arctic": [],
+  "lakeeffect": []
+ },
+ "gefs10": {
+  "run": "2026102712",
+  "cards": [
+   {
+    "id": "noreaster",
+    "icon": "\ud83c\udf00",
+    "title": "Nor'easter in the next 10 days?",
+    "value": "0%",
+    "status": "calm",
+    "detail": "No model runs show a strong storm off the Northeast coast. Strongest run: 992 mb (lower = stronger).",
+    "run": "GEFS Oct 27 12z",
+    "url": "https://www.wpc.ncep.noaa.gov/",
+    "checked": "2026-10-28T03:12+00:00"
+   },
+   {
+    "id": "freeze",
+    "icon": "\ud83e\uddca",
+    "title": "First freeze in Buffalo",
+    "value": "6%",
+    "status": "calm",
+    "detail": "Not yet this fall. 2 of 31 model runs freeze within 10 days, around Nov 6. Coldest run: 27\u00b0F.",
+    "run": "GEFS Oct 27 12z",
+    "url": "https://www.weather.gov/buf/",
+    "checked": "2026-10-28T03:12+00:00"
+   },
+   {
+    "id": "arctic",
+    "icon": "\ud83e\udd76",
+    "title": "Arctic air over Buffalo?",
+    "value": "0%",
+    "status": "calm",
+    "detail": "0 of 31 model runs bring air colder than 14\u00b0F about 5,000 ft up in the next 10 days. Coldest run: 16\u00b0F up there.",
+    "run": "GEFS Oct 27 12z",
+    "url": "https://www.weather.gov/buf/",
+    "checked": "2026-10-28T03:12+00:00"
+   },
+   {
+    "id": "lakeeffect",
+    "icon": "\u2744\ufe0f",
+    "title": "Lake-effect snow setup?",
+    "value": "10%",
+    "status": "calm",
+    "detail": "3 of 31 model runs get cold enough over Lake Erie (62\u00b0F water) for lake-effect snow around Nov 6. 84% show lake-effect rain showers.",
+    "run": "GEFS Oct 27 12z",
+    "url": "https://www.weather.gov/buf/",
+    "checked": "2026-10-28T03:12+00:00"
+   }
+  ]
+ }
 }

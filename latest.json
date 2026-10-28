@@ -134,7 +134,7 @@
    "status": "alert",
    "detail": "Oct 26: 4\u00b0F warmer than normal (58\u00b0F). Record for the date: 62.1\u00b0F (2017). Warmer water = more fuel for lake-effect snow.",
    "url": "https://coastwatch.glerl.noaa.gov/statistics/average-surface-water-temperature-glsea/",
-   "checked": "2026-10-28T02:59+00:00"
+   "checked": "2026-10-28T03:06+00:00"
   },
   "vortex": {
    "id": "vortex",
@@ -198,6 +198,50 @@
    },
    "url": "https://www.severe-weather.eu/polar-vortex-forecast/",
    "checked": "2026-10-28T02:59+00:00"
+  },
+  "noreaster": {
+   "id": "noreaster",
+   "icon": "\ud83c\udf00",
+   "title": "Nor'easter in the next 10 days?",
+   "value": "0%",
+   "status": "calm",
+   "detail": "No model runs show a strong storm off the Northeast coast. Strongest run: 992 mb (lower = stronger).",
+   "run": "GEFS Oct 27 12z",
+   "url": "https://www.wpc.ncep.noaa.gov/",
+   "checked": "2026-10-28T03:12+00:00"
+  },
+  "freeze": {
+   "id": "freeze",
+   "icon": "\ud83e\uddca",
+   "title": "First freeze in Buffalo",
+   "value": "6%",
+   "status": "calm",
+   "detail": "Not yet this fall. 2 of 31 model runs freeze within 10 days, around Nov 6. Coldest run: 27\u00b0F.",
+   "run": "GEFS Oct 27 12z",
+   "url": "https://www.weather.gov/buf/",
+   "checked": "2026-10-28T03:12+00:00"
+  },
+  "arctic": {
+   "id": "arctic",
+   "icon": "\ud83e\udd76",
+   "title": "Arctic air over Buffalo?",
+   "value": "0%",
+   "status": "calm",
+   "detail": "0 of 31 model runs bring air colder than 14\u00b0F about 5,000 ft up in the next 10 days. Coldest run: 16\u00b0F up there.",
+   "run": "GEFS Oct 27 12z",
+   "url": "https://www.weather.gov/buf/",
+   "checked": "2026-10-28T03:12+00:00"
+  },
+  "lakeeffect": {
+   "id": "lakeeffect",
+   "icon": "\u2744\ufe0f",
+   "title": "Lake-effect snow setup?",
+   "value": "10%",
+   "status": "calm",
+   "detail": "3 of 31 model runs get cold enough over Lake Erie (62\u00b0F water) for lake-effect snow around Nov 6. 84% show lake-effect rain showers.",
+   "run": "GEFS Oct 27 12z",
+   "url": "https://www.weather.gov/buf/",
+   "checked": "2026-10-28T03:12+00:00"
   }
  },
  "recent": [
@@ -210,5 +254,5 @@
    "text": "\ud83c\udf2a\ufe0f The polar vortex may break down. The polar vortex is a huge spinning wind high above the Arctic that usually keeps the coldest air locked up north. In 20 of 31 runs of the American weather model (65%), that spin stops and reverses, as early as Nov 4. When that happens, Arctic air often spills south 1 to 3 weeks later, which can mean cold and snow for Buffalo. Yesterday it was 35%."
   }
  ],
- "updated": "2026-10-28T02:59+00:00"
+ "updated": "2026-10-28T03:12+00:00"
 }
