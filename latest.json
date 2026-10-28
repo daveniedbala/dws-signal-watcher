@@ -8,7 +8,7 @@
    "status": "calm",
    "detail": "No winter or wind watches/warnings for WNY right now.",
    "url": "https://www.weather.gov/buf/",
-   "checked": "2026-10-28T02:14+00:00"
+   "checked": "2026-10-28T02:50+00:00"
   },
   "ao": {
    "id": "ao",
@@ -202,5 +202,5 @@
    "text": "\ud83c\udf2a\ufe0f Polar vortex: 65% of GEFS members now flip the 10 hPa winds at 60\u00b0N to easterly, earliest around Nov 4 (GEFS Oct 27 00z). Was 35% last run."
   }
  ],
- "updated": "2026-10-28T02:19+00:00"
+ "updated": "2026-10-28T02:50+00:00"
 }
