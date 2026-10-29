@@ -1,12 +1,12 @@
 {
  "ran": {
-  "vortex": "2026-10-29T00:31:47.879276+00:00",
-  "nws": "2026-10-29T00:31:47.970819+00:00",
-  "aonao": "2026-10-29T00:31:48.627595+00:00",
-  "cpc": "2026-10-29T00:31:49.090810+00:00",
+  "vortex": "2026-10-29T06:27:38.193880+00:00",
+  "nws": "2026-10-29T06:27:38.515570+00:00",
+  "aonao": "2026-10-29T06:27:40.227360+00:00",
+  "cpc": "2026-10-29T06:27:40.833425+00:00",
   "erie": "2026-10-29T00:31:49.301829+00:00",
-  "gefs10": "2026-10-29T00:31:49.345180+00:00",
-  "lakesky": "2026-10-29T00:31:50.427350+00:00"
+  "gefs10": "2026-10-29T06:28:34.571966+00:00",
+  "lakesky": "2026-10-29T06:28:35.580158+00:00"
  },
  "nws_seen": [],
  "ao_status": "watch",
@@ -53,7 +53,7 @@
    "title": "Will the polar vortex break down?",
    "value": "68%",
    "status": "alert",
-   "detail": "In 21 of 31 runs of the American weather model, the spinning winds over the Arctic stop and reverse within 16 days, as early as Nov 4. That can send Arctic air south 1 to 3 weeks later. Yesterday: 65%.",
+   "detail": "In 21 of 31 runs of the American weather model, the spinning winds over the Arctic stop and reverse within 34 days, as early as Nov 4. That can send Arctic air south 1 to 3 weeks later. Yesterday: 65%.",
    "run": "GEFS Oct 28 00z",
    "series": {
     "days": [
@@ -72,7 +72,16 @@
      13,
      14,
      15,
-     16
+     16,
+     18,
+     20,
+     22,
+     24,
+     26,
+     28,
+     30,
+     32,
+     34
     ],
     "mean": [
      14.2,
@@ -90,13 +99,22 @@
      -0.1,
      1.2,
      3.0,
-     4.7
+     4.7,
+     8.5,
+     12.1,
+     15.1,
+     19.3,
+     24.1,
+     27.5,
+     30.5,
+     31.6,
+     32.9
     ]
    },
    "url": "https://www.severe-weather.eu/polar-vortex-forecast/",
-   "checked": "2026-10-29T00:31+00:00"
+   "checked": "2026-10-29T06:27+00:00"
   },
-  "reach": 16
+  "reach": 34
  },
  "erie_alert_week": "2026-43",
  "erie_c": 16.52,
@@ -109,40 +127,40 @@
   "fallsice": []
  },
  "gefs10": {
-  "run": "2026102812",
+  "run": "2026102900",
   "cards": [
    {
     "id": "noreaster",
     "icon": "\ud83c\udf00",
     "title": "Nor'easter in the next 10 days?",
-    "value": "6%",
+    "value": "3%",
     "status": "calm",
-    "detail": "2 of 31 model runs show a strong storm off the Northeast coast around Nov 5. Strongest run: 987 mb (lower = stronger).",
-    "run": "GEFS Oct 28 12z",
+    "detail": "1 of 31 model runs show a strong storm off the Northeast coast around Nov 6. Strongest run: 988 mb (lower = stronger).",
+    "run": "GEFS Oct 29 00z",
     "url": "https://www.wpc.ncep.noaa.gov/",
-    "checked": "2026-10-29T00:31+00:00"
+    "checked": "2026-10-29T06:28+00:00"
    },
    {
     "id": "freeze",
     "icon": "\ud83e\uddca",
     "title": "First freeze in Buffalo",
-    "value": "13%",
+    "value": "3%",
     "status": "calm",
-    "detail": "Not yet this fall. 4 of 31 model runs freeze within 10 days, around Nov 6. Coldest run: 26\u00b0F.",
-    "run": "GEFS Oct 28 12z",
+    "detail": "Not yet this fall. 1 of 31 model runs freeze within 10 days, around Nov 7. Coldest run: 31\u00b0F.",
+    "run": "GEFS Oct 29 00z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-10-29T00:31+00:00"
+    "checked": "2026-10-29T06:28+00:00"
    },
    {
     "id": "arctic",
     "icon": "\ud83e\udd76",
     "title": "Arctic air over Buffalo?",
-    "value": "3%",
+    "value": "0%",
     "status": "calm",
-    "detail": "1 of 31 model runs bring air colder than 14\u00b0F about 5,000 ft up around Nov 5. Coldest run: 12\u00b0F up there.",
-    "run": "GEFS Oct 28 12z",
+    "detail": "0 of 31 model runs bring air colder than 14\u00b0F about 5,000 ft up in the next 10 days. Coldest run: 18\u00b0F up there.",
+    "run": "GEFS Oct 29 00z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-10-29T00:31+00:00"
+    "checked": "2026-10-29T06:28+00:00"
    },
    {
     "id": "lakeeffect",
@@ -150,10 +168,10 @@
     "title": "Lake-effect snow setup?",
     "value": "16%",
     "status": "watch",
-    "detail": "5 of 31 model runs get cold enough over Lake Erie (62\u00b0F water) for lake-effect snow around Nov 6. 100% show lake-effect rain showers.",
-    "run": "GEFS Oct 28 12z",
+    "detail": "5 of 31 model runs get cold enough over Lake Erie (62\u00b0F water) for lake-effect snow around Nov 7. 100% show lake-effect rain showers.",
+    "run": "GEFS Oct 29 00z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-10-29T00:31+00:00"
+    "checked": "2026-10-29T06:28+00:00"
    },
    {
     "id": "seichewind",
@@ -161,21 +179,21 @@
     "title": "Seiche / big-wave wind coming?",
     "value": "0%",
     "status": "calm",
-    "detail": "0 of 31 model runs blow SW winds of 35+ mph down Lake Erie in the next 10 days. Strongest run: 41 mph.",
-    "run": "GEFS Oct 28 12z",
+    "detail": "0 of 31 model runs blow SW winds of 35+ mph down Lake Erie in the next 10 days. Strongest run: 34 mph.",
+    "run": "GEFS Oct 29 00z",
     "url": "https://tidesandcurrents.noaa.gov/waterlevels.html?id=9063020",
-    "checked": "2026-10-29T00:31+00:00"
+    "checked": "2026-10-29T06:28+00:00"
    },
    {
     "id": "seasmoke",
     "icon": "\ud83c\udf2b\ufe0f",
     "title": "Sea smoke (lake steam) mornings",
-    "value": "13%",
+    "value": "3%",
     "status": "calm",
-    "detail": "Needs Buffalo at 32\u00b0F or colder over 62\u00b0F water. 4 of 31 model runs get there around Nov 6.",
-    "run": "GEFS Oct 28 12z",
+    "detail": "Needs Buffalo at 32\u00b0F or colder over 62\u00b0F water. 1 of 31 model runs get there around Nov 7.",
+    "run": "GEFS Oct 29 00z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-10-29T00:31+00:00"
+    "checked": "2026-10-29T06:28+00:00"
    },
    {
     "id": "fallsice",
@@ -184,9 +202,9 @@
     "value": "0%",
     "status": "calm",
     "detail": "0 of 31 model runs bring 3 straight nights at 10\u00b0F or colder in the next 10 days.",
-    "run": "GEFS Oct 28 12z",
+    "run": "GEFS Oct 29 00z",
     "url": "https://www.niagarafallsstatepark.com/",
-    "checked": "2026-10-29T00:31+00:00"
+    "checked": "2026-10-29T06:28+00:00"
    }
   ]
  }
