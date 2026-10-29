@@ -1,12 +1,12 @@
 {
  "ran": {
-  "vortex": "2026-10-29T06:27:38.193880+00:00",
-  "nws": "2026-10-29T06:27:38.515570+00:00",
-  "aonao": "2026-10-29T06:27:40.227360+00:00",
-  "cpc": "2026-10-29T06:27:40.833425+00:00",
-  "erie": "2026-10-29T00:31:49.301829+00:00",
-  "gefs10": "2026-10-29T06:28:34.571966+00:00",
-  "lakesky": "2026-10-29T06:28:35.580158+00:00"
+  "vortex": "2026-10-29T13:29:51.686613+00:00",
+  "nws": "2026-10-29T13:29:51.815715+00:00",
+  "aonao": "2026-10-29T13:29:52.332648+00:00",
+  "cpc": "2026-10-29T13:29:52.758561+00:00",
+  "erie": "2026-10-29T13:29:52.944949+00:00",
+  "gefs10": "2026-10-29T13:29:53.006898+00:00",
+  "lakesky": "2026-10-29T13:29:53.848644+00:00"
  },
  "nws_seen": [],
  "ao_status": "watch",
@@ -36,6 +36,11 @@
    "run": "20261028",
    "pct": 68,
    "pct16": 68
+  },
+  {
+   "run": "20261029",
+   "pct": 71,
+   "pct16": 71
   }
  ],
  "vortex_steps_sent": {
@@ -46,15 +51,15 @@
   ]
  },
  "vortex": {
-  "run": "20261028",
+  "run": "20261029",
   "card": {
    "id": "vortex",
    "icon": "\ud83c\udf2a\ufe0f",
    "title": "Will the polar vortex break down?",
-   "value": "68%",
+   "value": "71%",
    "status": "alert",
-   "detail": "In 21 of 31 runs of the American weather model, the spinning winds over the Arctic stop and reverse within 34 days, as early as Nov 4. That can send Arctic air south 1 to 3 weeks later. Yesterday: 65%.",
-   "run": "GEFS Oct 28 00z",
+   "detail": "In 22 of 31 runs of the American weather model, the spinning winds over the Arctic stop and reverse within 16 days, as early as Nov 4. That can send Arctic air south 1 to 3 weeks later. Yesterday: 68%.",
+   "run": "GEFS Oct 29 00z",
    "series": {
     "days": [
      1,
@@ -72,52 +77,34 @@
      13,
      14,
      15,
-     16,
-     18,
-     20,
-     22,
-     24,
-     26,
-     28,
-     30,
-     32,
-     34
+     16
     ],
     "mean": [
-     14.2,
-     12.4,
-     11.7,
+     12.8,
+     12.0,
      9.5,
-     6.3,
+     6.6,
      3.1,
      1.0,
-     0.9,
-     1.0,
-     0.8,
+     0.6,
+     0.6,
+     0.7,
      0.3,
-     -0.2,
      -0.1,
-     1.2,
-     3.0,
-     4.7,
-     8.5,
-     12.1,
-     15.1,
-     19.3,
-     24.1,
-     27.5,
-     30.5,
-     31.6,
-     32.9
+     -0.4,
+     0.1,
+     1.4,
+     3.3,
+     5.1
     ]
    },
    "url": "https://www.severe-weather.eu/polar-vortex-forecast/",
-   "checked": "2026-10-29T06:27+00:00"
+   "checked": "2026-10-29T13:29+00:00"
   },
-  "reach": 34
+  "reach": 16
  },
  "erie_alert_week": "2026-43",
- "erie_c": 16.52,
+ "erie_c": 16.56,
  "steps_sent": {
   "noreaster": [],
   "arctic": [],
@@ -138,7 +125,7 @@
     "detail": "1 of 31 model runs show a strong storm off the Northeast coast around Nov 6. Strongest run: 988 mb (lower = stronger).",
     "run": "GEFS Oct 29 00z",
     "url": "https://www.wpc.ncep.noaa.gov/",
-    "checked": "2026-10-29T06:28+00:00"
+    "checked": "2026-10-29T13:29+00:00"
    },
    {
     "id": "freeze",
@@ -149,7 +136,7 @@
     "detail": "Not yet this fall. 1 of 31 model runs freeze within 10 days, around Nov 7. Coldest run: 31\u00b0F.",
     "run": "GEFS Oct 29 00z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-10-29T06:28+00:00"
+    "checked": "2026-10-29T13:29+00:00"
    },
    {
     "id": "arctic",
@@ -160,7 +147,7 @@
     "detail": "0 of 31 model runs bring air colder than 14\u00b0F about 5,000 ft up in the next 10 days. Coldest run: 18\u00b0F up there.",
     "run": "GEFS Oct 29 00z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-10-29T06:28+00:00"
+    "checked": "2026-10-29T13:29+00:00"
    },
    {
     "id": "lakeeffect",
@@ -171,7 +158,7 @@
     "detail": "5 of 31 model runs get cold enough over Lake Erie (62\u00b0F water) for lake-effect snow around Nov 7. 100% show lake-effect rain showers.",
     "run": "GEFS Oct 29 00z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-10-29T06:28+00:00"
+    "checked": "2026-10-29T13:29+00:00"
    },
    {
     "id": "seichewind",
@@ -182,7 +169,7 @@
     "detail": "0 of 31 model runs blow SW winds of 35+ mph down Lake Erie in the next 10 days. Strongest run: 34 mph.",
     "run": "GEFS Oct 29 00z",
     "url": "https://tidesandcurrents.noaa.gov/waterlevels.html?id=9063020",
-    "checked": "2026-10-29T06:28+00:00"
+    "checked": "2026-10-29T13:29+00:00"
    },
    {
     "id": "seasmoke",
@@ -193,7 +180,7 @@
     "detail": "Needs Buffalo at 32\u00b0F or colder over 62\u00b0F water. 1 of 31 model runs get there around Nov 7.",
     "run": "GEFS Oct 29 00z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-10-29T06:28+00:00"
+    "checked": "2026-10-29T13:29+00:00"
    },
    {
     "id": "fallsice",
@@ -204,7 +191,7 @@
     "detail": "0 of 31 model runs bring 3 straight nights at 10\u00b0F or colder in the next 10 days.",
     "run": "GEFS Oct 29 00z",
     "url": "https://www.niagarafallsstatepark.com/",
-    "checked": "2026-10-29T06:28+00:00"
+    "checked": "2026-10-29T13:29+00:00"
    }
   ]
  }
