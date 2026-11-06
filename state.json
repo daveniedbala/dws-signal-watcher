@@ -1,23 +1,23 @@
 {
  "ran": {
-  "vortex": "2026-11-06T18:16:14.433194+00:00",
-  "nws": "2026-11-06T18:16:14.641608+00:00",
-  "aonao": "2026-11-06T18:16:16.845337+00:00",
-  "cpc": "2026-11-06T18:16:17.537513+00:00",
+  "vortex": "2026-11-06T23:21:18.184062+00:00",
+  "nws": "2026-11-06T23:21:18.420016+00:00",
+  "aonao": "2026-11-06T23:21:20.849916+00:00",
+  "cpc": "2026-11-06T23:21:21.556964+00:00",
   "erie": "2026-11-06T18:16:17.809529+00:00",
-  "gefs10": "2026-11-06T18:17:26.439772+00:00",
-  "lakesky": "2026-11-06T18:17:28.972575+00:00"
+  "gefs10": "2026-11-06T23:21:21.715839+00:00",
+  "lakesky": "2026-11-06T23:21:23.113934+00:00"
  },
  "nws_seen": [],
  "ao_status": "watch",
  "nao_status": "watch",
  "cpc610": {
-  "issued": 1793836800000,
+  "issued": 1793923200000,
   "cat": "Normal",
   "prob": 36
  },
  "cpc814": {
-  "issued": 1793836800000,
+  "issued": 1793923200000,
   "cat": "Above",
   "prob": 40
  },
@@ -140,7 +140,7 @@
     ]
    },
    "url": "https://www.severe-weather.eu/polar-vortex-forecast/",
-   "checked": "2026-11-06T18:16+00:00"
+   "checked": "2026-11-06T23:21+00:00"
   },
   "reach": 16
  },
@@ -173,7 +173,7 @@
     "detail": "11 of 31 model runs show a strong storm off the Northeast coast around Nov 14. Strongest run: 979 mb (lower = stronger).",
     "run": "GEFS Nov 6 12z",
     "url": "https://www.wpc.ncep.noaa.gov/",
-    "checked": "2026-11-06T18:17+00:00"
+    "checked": "2026-11-06T23:21+00:00"
    },
    {
     "id": "freeze",
@@ -184,7 +184,7 @@
     "detail": "Not yet this fall. 25 of 31 model runs freeze within 10 days, around Nov 13. Coldest run: 24\u00b0F.",
     "run": "GEFS Nov 6 12z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-11-06T18:17+00:00"
+    "checked": "2026-11-06T23:21+00:00"
    },
    {
     "id": "arctic",
@@ -195,7 +195,7 @@
     "detail": "6 of 31 model runs bring air colder than 14\u00b0F about 5,000 ft up around Nov 13. Coldest run: 12\u00b0F up there.",
     "run": "GEFS Nov 6 12z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-11-06T18:17+00:00"
+    "checked": "2026-11-06T23:21+00:00"
    },
    {
     "id": "lakeeffect",
@@ -206,7 +206,7 @@
     "detail": "30 of 31 model runs get cold enough over Lake Erie (61\u00b0F water) for lake-effect snow around Nov 12. 100% show lake-effect rain showers.",
     "run": "GEFS Nov 6 12z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-11-06T18:17+00:00"
+    "checked": "2026-11-06T23:21+00:00"
    },
    {
     "id": "seichewind",
@@ -217,7 +217,7 @@
     "detail": "0 of 31 model runs blow SW winds of 35+ mph down Lake Erie in the next 10 days. Strongest run: 32 mph.",
     "run": "GEFS Nov 6 12z",
     "url": "https://tidesandcurrents.noaa.gov/waterlevels.html?id=9063020",
-    "checked": "2026-11-06T18:17+00:00"
+    "checked": "2026-11-06T23:21+00:00"
    },
    {
     "id": "seasmoke",
@@ -228,7 +228,7 @@
     "detail": "Needs Buffalo at 31\u00b0F or colder over 61\u00b0F water. 25 of 31 model runs get there around Nov 13.",
     "run": "GEFS Nov 6 12z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-11-06T18:17+00:00"
+    "checked": "2026-11-06T23:21+00:00"
    },
    {
     "id": "fallsice",
@@ -239,7 +239,7 @@
     "detail": "0 of 31 model runs bring 3 straight nights at 10\u00b0F or colder in the next 10 days.",
     "run": "GEFS Nov 6 12z",
     "url": "https://www.niagarafallsstatepark.com/",
-    "checked": "2026-11-06T18:17+00:00"
+    "checked": "2026-11-06T23:21+00:00"
    }
   ]
  },
