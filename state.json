@@ -1,12 +1,12 @@
 {
  "ran": {
-  "vortex": "2026-11-08T23:51:50.781780+00:00",
-  "nws": "2026-11-08T23:51:50.944224+00:00",
-  "aonao": "2026-11-08T23:51:52.774499+00:00",
-  "cpc": "2026-11-08T23:51:53.436607+00:00",
+  "vortex": "2026-11-09T03:40:03.262902+00:00",
+  "nws": "2026-11-09T03:40:03.520118+00:00",
+  "aonao": "2026-11-09T03:40:05.557420+00:00",
+  "cpc": "2026-11-09T03:40:06.152271+00:00",
   "erie": "2026-11-08T23:51:53.708011+00:00",
-  "gefs10": "2026-11-08T23:52:58.336451+00:00",
-  "lakesky": "2026-11-08T23:52:59.885486+00:00"
+  "gefs10": "2026-11-09T03:40:06.287908+00:00",
+  "lakesky": "2026-11-09T03:40:07.722658+00:00"
  },
  "nws_seen": [],
  "ao_status": "watch",
@@ -109,7 +109,7 @@
    "title": "Will the polar vortex break down?",
    "value": "100%",
    "status": "alert",
-   "detail": "In 31 of 31 runs of the American weather model, the spinning winds over the Arctic stop and reverse within 16 days, as early as Nov 10. That can send Arctic air south 1 to 3 weeks later. Yesterday: 100%.",
+   "detail": "In 31 of 31 runs of the American weather model, the spinning winds over the Arctic stop and reverse within 32 days, as early as Nov 10. That can send Arctic air south 1 to 3 weeks later. Yesterday: 100%.",
    "run": "GEFS Nov 8 00z",
    "series": {
     "days": [
@@ -128,7 +128,15 @@
      13,
      14,
      15,
-     16
+     16,
+     18,
+     20,
+     22,
+     24,
+     26,
+     28,
+     30,
+     32
     ],
     "mean": [
      1.9,
@@ -146,13 +154,21 @@
      15.8,
      20.2,
      24.9,
-     28.2
+     28.2,
+     32.1,
+     35.1,
+     36.4,
+     37.9,
+     39.5,
+     41.0,
+     42.4,
+     43.3
     ]
    },
    "url": "https://www.severe-weather.eu/polar-vortex-forecast/",
-   "checked": "2026-11-08T23:51+00:00"
+   "checked": "2026-11-09T03:40+00:00"
   },
-  "reach": 16
+  "reach": 32
  },
  "erie_alert_week": "2026-44",
  "erie_c": 16.11,
@@ -185,7 +201,7 @@
     "detail": "25 of 31 model runs show a strong storm off the Northeast coast around Nov 14. Strongest run: 971 mb (lower = stronger).",
     "run": "GEFS Nov 8 12z",
     "url": "https://www.wpc.ncep.noaa.gov/",
-    "checked": "2026-11-08T23:52+00:00"
+    "checked": "2026-11-09T03:40+00:00"
    },
    {
     "id": "freeze",
@@ -196,7 +212,7 @@
     "detail": "Not yet this fall. 12 of 31 model runs freeze within 10 days, around Nov 15. Coldest run: 27\u00b0F.",
     "run": "GEFS Nov 8 12z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-11-08T23:52+00:00"
+    "checked": "2026-11-09T03:40+00:00"
    },
    {
     "id": "arctic",
@@ -207,7 +223,7 @@
     "detail": "1 of 31 model runs bring air colder than 14\u00b0F about 5,000 ft up around Nov 13. Coldest run: 13\u00b0F up there.",
     "run": "GEFS Nov 8 12z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-11-08T23:52+00:00"
+    "checked": "2026-11-09T03:40+00:00"
    },
    {
     "id": "lakeeffect",
@@ -218,7 +234,7 @@
     "detail": "27 of 31 model runs get cold enough over Lake Erie (61\u00b0F water) for lake-effect snow around Nov 14. 100% show lake-effect rain showers.",
     "run": "GEFS Nov 8 12z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-11-08T23:52+00:00"
+    "checked": "2026-11-09T03:40+00:00"
    },
    {
     "id": "seichewind",
@@ -229,7 +245,7 @@
     "detail": "0 of 31 model runs blow SW winds of 35+ mph down Lake Erie in the next 10 days. Strongest run: 40 mph.",
     "run": "GEFS Nov 8 12z",
     "url": "https://tidesandcurrents.noaa.gov/waterlevels.html?id=9063020",
-    "checked": "2026-11-08T23:52+00:00"
+    "checked": "2026-11-09T03:40+00:00"
    },
    {
     "id": "seasmoke",
@@ -240,7 +256,7 @@
     "detail": "Needs Buffalo at 31\u00b0F or colder over 61\u00b0F water. 5 of 31 model runs get there around Nov 15.",
     "run": "GEFS Nov 8 12z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-11-08T23:52+00:00"
+    "checked": "2026-11-09T03:40+00:00"
    },
    {
     "id": "fallsice",
@@ -251,7 +267,7 @@
     "detail": "0 of 31 model runs bring 3 straight nights at 10\u00b0F or colder in the next 10 days.",
     "run": "GEFS Nov 8 12z",
     "url": "https://www.niagarafallsstatepark.com/",
-    "checked": "2026-11-08T23:52+00:00"
+    "checked": "2026-11-09T03:40+00:00"
    }
   ]
  },
