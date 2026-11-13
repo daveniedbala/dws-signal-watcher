@@ -8,15 +8,15 @@
    "status": "calm",
    "detail": "Nothing for Western New York right now.",
    "url": "https://www.weather.gov/buf/",
-   "checked": "2026-11-13T12:08+00:00"
+   "checked": "2026-11-13T19:36+00:00"
   },
   "ao": {
    "id": "ao",
    "icon": "\ud83e\udd76",
    "title": "Arctic Oscillation: is cold air escaping?",
-   "value": "-2.0",
-   "status": "watch",
-   "detail": "Model average goes as low as -2.0 (Nov 12) and as high as +0.5. Below -2 = cold air can escape south. Above +2.5 = cold stays up north.",
+   "value": "-2.3",
+   "status": "alert",
+   "detail": "Model average goes as low as -2.3 (Nov 28) and as high as +0.7. Below -2 = cold air can escape south. Above +2.5 = cold stays up north.",
    "series": {
     "days": [
      0,
@@ -37,26 +37,26 @@
      15
     ],
     "mean": [
-     -1.98,
-     -1.78,
-     -0.91,
-     -0.1,
-     0.1,
-     0.48,
-     0.36,
-     0.04,
-     -0.21,
-     -0.29,
-     -0.43,
-     -0.67,
-     -0.98,
-     -1.16,
-     -1.2,
-     -1.23
+     -1.68,
+     -0.82,
+     -0.01,
+     0.35,
+     0.71,
+     0.51,
+     0.2,
+     -0.03,
+     -0.11,
+     -0.32,
+     -0.84,
+     -1.39,
+     -1.76,
+     -1.91,
+     -2.07,
+     -2.33
     ]
    },
    "url": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/daily_ao_index/ao.shtml",
-   "checked": "2026-11-13T12:08+00:00"
+   "checked": "2026-11-13T19:37+00:00"
   },
   "nao": {
    "id": "nao",
@@ -85,26 +85,26 @@
      15
     ],
     "mean": [
-     -1.23,
-     -1.49,
-     -1.38,
-     -1.09,
-     -0.64,
-     -0.14,
-     0.0,
-     -0.1,
-     -0.09,
-     -0.09,
-     -0.05,
+     -1.46,
+     -1.36,
+     -0.99,
+     -0.49,
+     -0.03,
+     0.11,
      0.01,
-     -0.02,
-     0.02,
-     0.17,
-     0.21
+     0.1,
+     0.13,
+     0.18,
+     0.12,
+     -0.07,
+     -0.22,
+     -0.18,
+     -0.21,
+     -0.39
     ]
    },
    "url": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/daily_ao_index/ao.shtml",
-   "checked": "2026-11-13T12:08+00:00"
+   "checked": "2026-11-13T19:37+00:00"
   },
   "cpc610": {
    "id": "cpc610",
@@ -114,7 +114,7 @@
    "status": "alert",
    "detail": "Nov 18\u2013Nov 22: 80% chance of being warmer than normal.",
    "url": "https://www.cpc.ncep.noaa.gov/products/predictions/610day/",
-   "checked": "2026-11-13T12:08+00:00"
+   "checked": "2026-11-13T19:37+00:00"
   },
   "cpc814": {
    "id": "cpc814",
@@ -124,7 +124,7 @@
    "status": "calm",
    "detail": "Nov 20\u2013Nov 26: 60% chance of being warmer than normal.",
    "url": "https://www.cpc.ncep.noaa.gov/products/predictions/814day/",
-   "checked": "2026-11-13T12:08+00:00"
+   "checked": "2026-11-13T19:37+00:00"
   },
   "erie": {
    "id": "erie",
@@ -134,7 +134,7 @@
    "status": "alert",
    "detail": "Nov 12: 6\u00b0F warmer than normal (52\u00b0F). Record for the date: 57.7\u00b0F (2024). Warmer water = more fuel for lake-effect snow.",
    "url": "https://coastwatch.glerl.noaa.gov/statistics/average-surface-water-temperature-glsea/",
-   "checked": "2026-11-13T12:08+00:00"
+   "checked": "2026-11-13T19:37+00:00"
   },
   "vortex": {
    "id": "vortex",
@@ -183,43 +183,40 @@
     ]
    },
    "url": "https://www.severe-weather.eu/polar-vortex-forecast/",
-   "checked": "2026-11-13T12:08+00:00"
+   "checked": "2026-11-13T19:36+00:00"
   },
   "noreaster": {
    "id": "noreaster",
    "icon": "\ud83c\udf00",
    "title": "Nor'easter in the next 10 days?",
-   "value": "3%",
+   "value": "0%",
    "status": "calm",
-   "detail": "1 of 31 model runs show a strong storm off the Northeast coast around Nov 13. Strongest run: 989 mb (lower = stronger).",
-   "run": "GEFS Nov 12 12z",
+   "detail": "No model runs show a strong storm off the Northeast coast. Strongest run: 991 mb (lower = stronger).",
+   "run": "GEFS Nov 13 12z",
    "url": "https://www.wpc.ncep.noaa.gov/",
-   "checked": "2026-11-13T04:05+00:00",
-   "problem": "Couldn't check at 12:09 PM"
+   "checked": "2026-11-13T19:38+00:00"
   },
   "freeze": {
    "id": "freeze",
    "icon": "\ud83e\uddca",
    "title": "First freeze in Buffalo",
-   "value": "26%",
+   "value": "32%",
    "status": "watch",
-   "detail": "Not yet this fall. 8 of 31 model runs freeze within 10 days, around Nov 16. Coldest run: 22\u00b0F.",
-   "run": "GEFS Nov 12 12z",
+   "detail": "Not yet this fall. 10 of 31 model runs freeze within 10 days, around Nov 23. Coldest run: 26\u00b0F.",
+   "run": "GEFS Nov 13 12z",
    "url": "https://www.weather.gov/buf/",
-   "checked": "2026-11-13T04:05+00:00",
-   "problem": "Couldn't check at 12:09 PM"
+   "checked": "2026-11-13T19:38+00:00"
   },
   "arctic": {
    "id": "arctic",
    "icon": "\ud83e\udd76",
    "title": "Arctic air over Buffalo?",
-   "value": "0%",
+   "value": "10%",
    "status": "calm",
-   "detail": "0 of 31 model runs bring air colder than 14\u00b0F about 5,000 ft up in the next 10 days. Coldest run: 16\u00b0F up there.",
-   "run": "GEFS Nov 12 12z",
+   "detail": "3 of 31 model runs bring air colder than 14\u00b0F about 5,000 ft up around Nov 23. Coldest run: 8\u00b0F up there.",
+   "run": "GEFS Nov 13 12z",
    "url": "https://www.weather.gov/buf/",
-   "checked": "2026-11-13T04:05+00:00",
-   "problem": "Couldn't check at 12:09 PM"
+   "checked": "2026-11-13T19:38+00:00"
   },
   "lakeeffect": {
    "id": "lakeeffect",
@@ -227,31 +224,30 @@
    "title": "Lake-effect snow setup?",
    "value": "100%",
    "status": "alert",
-   "detail": "31 of 31 model runs get cold enough over Lake Erie (58\u00b0F water) for lake-effect snow around Nov 13. 100% show lake-effect rain showers.",
-   "run": "GEFS Nov 12 12z",
+   "detail": "31 of 31 model runs get cold enough over Lake Erie (58\u00b0F water) for lake-effect snow around Nov 14. 100% show lake-effect rain showers.",
+   "run": "GEFS Nov 13 12z",
    "url": "https://www.weather.gov/buf/",
-   "checked": "2026-11-13T04:05+00:00",
-   "problem": "Couldn't check at 12:09 PM"
+   "checked": "2026-11-13T19:38+00:00"
   },
   "seiche": {
    "id": "seiche",
    "icon": "\ud83d\udec1",
    "title": "Lake Erie seiche (sloshing) now",
-   "value": "-0.6 ft",
+   "value": "-0.0 ft",
    "status": "calm",
-   "detail": "Buffalo water level minus Toledo: -0.6 ft (Buffalo 1.7 ft above low water). 6+ ft difference = a big seiche.",
+   "detail": "Buffalo water level minus Toledo: -0.0 ft (Buffalo 2.0 ft above low water). 6+ ft difference = a big seiche.",
    "url": "https://tidesandcurrents.noaa.gov/waterlevels.html?id=9063020",
-   "checked": "2026-11-13T12:09+00:00"
+   "checked": "2026-11-13T19:38+00:00"
   },
   "waves": {
    "id": "waves",
    "icon": "\ud83c\udf0a",
    "title": "Lake Erie waves now",
-   "value": "3 ft",
+   "value": "1 ft",
    "status": "calm",
-   "detail": "Eastern Lake Erie buoy: 2.6 ft waves. 8+ ft = big wave day.",
+   "detail": "Eastern Lake Erie buoy: 1.3 ft waves. 8+ ft = big wave day.",
    "url": "https://www.ndbc.noaa.gov/station_page.php?station=45142",
-   "checked": "2026-11-13T12:09+00:00"
+   "checked": "2026-11-13T19:38+00:00"
   },
   "aurora": {
    "id": "aurora",
@@ -261,7 +257,7 @@
    "status": "calm",
    "detail": "Highest forecast: Kp 3.3 around Nov 16. Kp 6+ = maybe visible from WNY, 7+ = good chance.",
    "url": "https://www.swpc.noaa.gov/products/aurora-30-minute-forecast",
-   "checked": "2026-11-13T12:09+00:00"
+   "checked": "2026-11-13T19:38+00:00"
   },
   "storms": {
    "id": "storms",
@@ -271,31 +267,29 @@
    "status": "calm",
    "detail": "No thunderstorms expected in the next 3 days.",
    "url": "https://www.spc.noaa.gov/products/outlook/",
-   "checked": "2026-11-13T12:09+00:00"
+   "checked": "2026-11-13T19:38+00:00"
   },
   "seichewind": {
    "id": "seichewind",
    "icon": "\ud83d\udec1",
    "title": "Seiche / big-wave wind coming?",
-   "value": "0%",
+   "value": "6%",
    "status": "calm",
-   "detail": "0 of 31 model runs blow SW winds of 35+ mph down Lake Erie in the next 10 days. Strongest run: 30 mph.",
-   "run": "GEFS Nov 12 12z",
+   "detail": "2 of 31 model runs blow SW winds of 35+ mph down Lake Erie around Nov 22. Strongest run: 36 mph.",
+   "run": "GEFS Nov 13 12z",
    "url": "https://tidesandcurrents.noaa.gov/waterlevels.html?id=9063020",
-   "checked": "2026-11-13T04:05+00:00",
-   "problem": "Couldn't check at 12:09 PM"
+   "checked": "2026-11-13T19:38+00:00"
   },
   "seasmoke": {
    "id": "seasmoke",
    "icon": "\ud83c\udf2b\ufe0f",
    "title": "Sea smoke (lake steam) mornings",
-   "value": "3%",
+   "value": "10%",
    "status": "calm",
-   "detail": "Needs Buffalo at 28\u00b0F or colder over 58\u00b0F water. 1 of 31 model runs get there around Nov 21.",
-   "run": "GEFS Nov 12 12z",
+   "detail": "Needs Buffalo at 28\u00b0F or colder over 58\u00b0F water. 3 of 31 model runs get there around Nov 23.",
+   "run": "GEFS Nov 13 12z",
    "url": "https://www.weather.gov/buf/",
-   "checked": "2026-11-13T04:05+00:00",
-   "problem": "Couldn't check at 12:09 PM"
+   "checked": "2026-11-13T19:38+00:00"
   },
   "fallsice": {
    "id": "fallsice",
@@ -304,13 +298,16 @@
    "value": "0%",
    "status": "calm",
    "detail": "0 of 31 model runs bring 3 straight nights at 10\u00b0F or colder in the next 10 days.",
-   "run": "GEFS Nov 12 12z",
+   "run": "GEFS Nov 13 12z",
    "url": "https://www.niagarafallsstatepark.com/",
-   "checked": "2026-11-13T04:05+00:00",
-   "problem": "Couldn't check at 12:09 PM"
+   "checked": "2026-11-13T19:38+00:00"
   }
  },
  "recent": [
+  {
+   "at": "2026-11-13T19:38+00:00",
+   "text": "\ud83e\udd76 Cold pattern coming? The Arctic Oscillation (AO) measures how tightly cold air is held around the North Pole. The American model's average drops to -2.3 by Nov 28. A big negative number means the cold air is loosening and can spill south into the eastern U.S."
+  },
   {
    "at": "2026-11-12T23:46+00:00",
    "text": "\ud83d\uddfa\ufe0f NOAA's forecast for Nov 18\u2013Nov 22 got more confident: Buffalo now has a 80% chance of being warmer than normal (before: 60% chance warmer than normal). This comes from NOAA's Climate Prediction Center, which forecasts whether the weeks ahead will run warmer or colder than usual."
@@ -384,5 +381,5 @@
    "text": "\ud83c\udf2a\ufe0f The polar vortex may break down. The polar vortex is a huge spinning wind high above the Arctic that usually keeps the coldest air locked up north. In 20 of 31 runs of the American weather model (65%), that spin stops and reverses, as early as Nov 4. When that happens, Arctic air often spills south 1 to 3 weeks later, which can mean cold and snow for Buffalo. Yesterday it was 35%."
   }
  ],
- "updated": "2026-11-13T12:09+00:00"
+ "updated": "2026-11-13T19:38+00:00"
 }
