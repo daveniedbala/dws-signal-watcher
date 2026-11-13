@@ -1,12 +1,12 @@
 {
  "ran": {
-  "vortex": "2026-11-13T04:05:07.487759+00:00",
-  "nws": "2026-11-13T04:05:07.661919+00:00",
-  "aonao": "2026-11-13T04:05:10.865077+00:00",
-  "cpc": "2026-11-13T04:05:11.958186+00:00",
-  "erie": "2026-11-13T04:05:12.314272+00:00",
+  "vortex": "2026-11-13T12:08:34.908775+00:00",
+  "nws": "2026-11-13T12:08:35.100456+00:00",
+  "aonao": "2026-11-13T12:08:37.566325+00:00",
+  "cpc": "2026-11-13T12:08:38.360756+00:00",
+  "erie": "2026-11-13T12:08:38.671854+00:00",
   "gefs10": "2026-11-13T04:05:12.518107+00:00",
-  "lakesky": "2026-11-13T04:05:14.166463+00:00"
+  "lakesky": "2026-11-13T12:09:53.440127+00:00"
  },
  "nws_seen": [],
  "ao_status": "watch",
@@ -111,6 +111,11 @@
    "run": "20261112",
    "pct": 100,
    "pct16": 100
+  },
+  {
+   "run": "20261113",
+   "pct": 0,
+   "pct16": 0
   }
  ],
  "vortex_steps_sent": {
@@ -122,15 +127,15 @@
   ]
  },
  "vortex": {
-  "run": "20261112",
+  "run": "20261113",
   "card": {
    "id": "vortex",
    "icon": "\ud83c\udf2a\ufe0f",
    "title": "Will the polar vortex break down?",
-   "value": "100%",
-   "status": "alert",
-   "detail": "In 31 of 31 runs of the American weather model, the spinning winds over the Arctic stop and reverse within 34 days, as early as Nov 13. That can send Arctic air south 1 to 3 weeks later. Yesterday: 100%.",
-   "run": "GEFS Nov 12 00z",
+   "value": "0%",
+   "status": "calm",
+   "detail": "In 0 of 31 runs of the American weather model, the spinning winds over the Arctic stop and reverse within 16 days. That can send Arctic air south 1 to 3 weeks later. Yesterday: 100%.",
+   "run": "GEFS Nov 13 00z",
    "series": {
     "days": [
      1,
@@ -148,52 +153,34 @@
      13,
      14,
      15,
-     16,
-     18,
-     20,
-     22,
-     24,
-     26,
-     28,
-     30,
-     32,
-     34
+     16
     ],
     "mean": [
-     -1.2,
-     2.9,
-     4.1,
-     5.1,
-     6.9,
-     9.9,
+     3.0,
+     4.0,
+     4.7,
+     6.6,
+     9.4,
      12.5,
-     15.4,
-     18.0,
-     23.1,
-     27.7,
-     30.6,
+     15.8,
+     19.5,
+     24.0,
+     27.0,
+     29.7,
+     31.9,
      33.6,
-     36.1,
-     37.2,
-     37.5,
-     38.9,
-     40.8,
-     42.1,
-     42.8,
-     43.3,
-     44.1,
-     44.7,
-     46.0,
-     47.8
+     34.8,
+     35.9,
+     36.9
     ]
    },
    "url": "https://www.severe-weather.eu/polar-vortex-forecast/",
-   "checked": "2026-11-13T04:05+00:00"
+   "checked": "2026-11-13T12:08+00:00"
   },
-  "reach": 34
+  "reach": 16
  },
  "erie_alert_week": "2026-45",
- "erie_c": 14.52,
+ "erie_c": 14.5,
  "steps_sent": {
   "noreaster": [],
   "arctic": [],
