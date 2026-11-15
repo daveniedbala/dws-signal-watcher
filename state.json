@@ -1,12 +1,12 @@
 {
  "ran": {
-  "vortex": "2026-11-14T22:49:33.856360+00:00",
-  "nws": "2026-11-14T22:49:34.004919+00:00",
-  "aonao": "2026-11-14T22:49:37.849491+00:00",
-  "cpc": "2026-11-14T22:49:38.657334+00:00",
+  "vortex": "2026-11-15T02:17:16.135722+00:00",
+  "nws": "2026-11-15T02:17:16.389437+00:00",
+  "aonao": "2026-11-15T02:17:19.735959+00:00",
+  "cpc": "2026-11-15T02:17:20.546439+00:00",
   "erie": "2026-11-14T22:49:39.047808+00:00",
-  "gefs10": "2026-11-14T22:49:39.281815+00:00",
-  "lakesky": "2026-11-14T22:49:41.045966+00:00"
+  "gefs10": "2026-11-15T02:17:20.729784+00:00",
+  "lakesky": "2026-11-15T02:17:22.366671+00:00"
  },
  "nws_seen": [],
  "ao_status": "watch",
@@ -139,7 +139,7 @@
    "title": "Will the polar vortex break down?",
    "value": "0%",
    "status": "calm",
-   "detail": "In 0 of 31 runs of the American weather model, the spinning winds over the Arctic stop and reverse within 16 days. That can send Arctic air south 1 to 3 weeks later. Yesterday: 0%.",
+   "detail": "In 0 of 31 runs of the American weather model, the spinning winds over the Arctic stop and reverse within 26 days. That can send Arctic air south 1 to 3 weeks later. Yesterday: 0%.",
    "run": "GEFS Nov 14 00z",
    "series": {
     "days": [
@@ -158,7 +158,12 @@
      13,
      14,
      15,
-     16
+     16,
+     18,
+     20,
+     22,
+     24,
+     26
     ],
     "mean": [
      3.8,
@@ -176,13 +181,18 @@
      36.6,
      37.7,
      38.5,
-     39.3
+     39.3,
+     40.6,
+     41.5,
+     41.7,
+     42.7,
+     43.0
     ]
    },
    "url": "https://www.severe-weather.eu/polar-vortex-forecast/",
-   "checked": "2026-11-14T22:49+00:00"
+   "checked": "2026-11-15T02:17+00:00"
   },
-  "reach": 16
+  "reach": 26
  },
  "erie_alert_week": "2026-45",
  "erie_c": 14.54,
@@ -209,7 +219,7 @@
     "detail": "4 of 31 model runs show a strong storm off the Northeast coast around Nov 24. Strongest run: 982 mb (lower = stronger).",
     "run": "GEFS Nov 14 12z",
     "url": "https://www.wpc.ncep.noaa.gov/",
-    "checked": "2026-11-14T22:49+00:00"
+    "checked": "2026-11-15T02:17+00:00"
    },
    {
     "id": "freeze",
@@ -220,7 +230,7 @@
     "detail": "Not yet this fall. 16 of 31 model runs freeze within 10 days, around Nov 24. Coldest run: 21\u00b0F.",
     "run": "GEFS Nov 14 12z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-11-14T22:49+00:00"
+    "checked": "2026-11-15T02:17+00:00"
    },
    {
     "id": "arctic",
@@ -231,7 +241,7 @@
     "detail": "3 of 31 model runs bring air colder than 14\u00b0F about 5,000 ft up around Nov 24. Coldest run: 10\u00b0F up there.",
     "run": "GEFS Nov 14 12z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-11-14T22:49+00:00"
+    "checked": "2026-11-15T02:17+00:00"
    },
    {
     "id": "lakeeffect",
@@ -242,7 +252,7 @@
     "detail": "31 of 31 model runs get cold enough over Lake Erie (58\u00b0F water) for lake-effect snow around Nov 15. 100% show lake-effect rain showers.",
     "run": "GEFS Nov 14 12z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-11-14T22:49+00:00"
+    "checked": "2026-11-15T02:17+00:00"
    },
    {
     "id": "seichewind",
@@ -253,7 +263,7 @@
     "detail": "0 of 31 model runs blow SW winds of 35+ mph down Lake Erie in the next 10 days. Strongest run: 30 mph.",
     "run": "GEFS Nov 14 12z",
     "url": "https://tidesandcurrents.noaa.gov/waterlevels.html?id=9063020",
-    "checked": "2026-11-14T22:49+00:00"
+    "checked": "2026-11-15T02:17+00:00"
    },
    {
     "id": "seasmoke",
@@ -264,7 +274,7 @@
     "detail": "Needs Buffalo at 28\u00b0F or colder over 58\u00b0F water. 11 of 31 model runs get there around Nov 24.",
     "run": "GEFS Nov 14 12z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-11-14T22:49+00:00"
+    "checked": "2026-11-15T02:17+00:00"
    },
    {
     "id": "fallsice",
@@ -275,7 +285,7 @@
     "detail": "0 of 31 model runs bring 3 straight nights at 10\u00b0F or colder in the next 10 days.",
     "run": "GEFS Nov 14 12z",
     "url": "https://www.niagarafallsstatepark.com/",
-    "checked": "2026-11-14T22:49+00:00"
+    "checked": "2026-11-15T02:17+00:00"
    }
   ]
  },
