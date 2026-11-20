@@ -1,12 +1,12 @@
 {
  "ran": {
-  "vortex": "2026-11-20T02:45:10.193794+00:00",
-  "nws": "2026-11-20T02:45:10.380967+00:00",
-  "aonao": "2026-11-20T02:45:11.018499+00:00",
-  "cpc": "2026-11-20T02:45:11.347356+00:00",
-  "erie": "2026-11-19T21:55:16.873675+00:00",
-  "gefs10": "2026-11-20T02:45:11.392403+00:00",
-  "lakesky": "2026-11-20T02:45:12.196659+00:00"
+  "vortex": "2026-11-20T10:33:45.520035+00:00",
+  "nws": "2026-11-20T10:33:45.667343+00:00",
+  "aonao": "2026-11-20T10:33:49.499613+00:00",
+  "cpc": "2026-11-20T10:33:50.332564+00:00",
+  "erie": "2026-11-20T10:33:50.719315+00:00",
+  "gefs10": "2026-11-20T10:35:49.527591+00:00",
+  "lakesky": "2026-11-20T10:35:51.465403+00:00"
  },
  "nws_seen": [],
  "ao_status": "watch",
@@ -146,6 +146,11 @@
    "run": "20261119",
    "pct": 0,
    "pct16": 0
+  },
+  {
+   "run": "20261120",
+   "pct": 0,
+   "pct16": 0
   }
  ],
  "vortex_steps_sent": {
@@ -157,15 +162,15 @@
   ]
  },
  "vortex": {
-  "run": "20261119",
+  "run": "20261120",
   "card": {
    "id": "vortex",
    "icon": "\ud83c\udf2a\ufe0f",
    "title": "Will the polar vortex break down?",
    "value": "0%",
    "status": "calm",
-   "detail": "In 0 of 31 runs of the American weather model, the spinning winds over the Arctic stop and reverse within 26 days. That can send Arctic air south 1 to 3 weeks later. Yesterday: 0%.",
-   "run": "GEFS Nov 19 00z",
+   "detail": "In 0 of 31 runs of the American weather model, the spinning winds over the Arctic stop and reverse within 16 days. That can send Arctic air south 1 to 3 weeks later. Yesterday: 0%.",
+   "run": "GEFS Nov 20 00z",
    "series": {
     "days": [
      1,
@@ -183,44 +188,34 @@
      13,
      14,
      15,
-     16,
-     18,
-     20,
-     22,
-     24,
-     26
+     16
     ],
     "mean": [
-     16.1,
-     18.6,
+     18.4,
      21.5,
-     23.8,
-     25.4,
-     26.9,
-     28.1,
-     29.0,
-     29.2,
-     30.1,
-     32.7,
-     35.4,
-     36.8,
-     37.7,
-     38.0,
-     37.9,
-     38.3,
-     39.8,
-     40.5,
-     41.2,
-     42.0
+     23.2,
+     24.7,
+     26.2,
+     27.0,
+     26.7,
+     25.9,
+     25.6,
+     26.8,
+     27.2,
+     29.6,
+     32.8,
+     33.9,
+     34.0,
+     33.9
     ]
    },
    "url": "https://www.severe-weather.eu/polar-vortex-forecast/",
-   "checked": "2026-11-20T02:45+00:00"
+   "checked": "2026-11-20T10:33+00:00"
   },
-  "reach": 26
+  "reach": 16
  },
  "erie_alert_week": "2026-46",
- "erie_c": 12.78,
+ "erie_c": 12.75,
  "steps_sent": {
   "noreaster": [
    30
@@ -239,18 +234,18 @@
   "fallsice": []
  },
  "gefs10": {
-  "run": "2026111912",
+  "run": "2026112000",
   "cards": [
    {
     "id": "noreaster",
     "icon": "\ud83c\udf00",
     "title": "Nor'easter in the next 10 days?",
-    "value": "23%",
+    "value": "16%",
     "status": "watch",
-    "detail": "7 of 31 model runs show a strong storm off the Northeast coast around Nov 24. Strongest run: 980 mb (lower = stronger).",
-    "run": "GEFS Nov 19 12z",
+    "detail": "5 of 31 model runs show a strong storm off the Northeast coast around Nov 29. Strongest run: 987 mb (lower = stronger).",
+    "run": "GEFS Nov 20 00z",
     "url": "https://www.wpc.ncep.noaa.gov/",
-    "checked": "2026-11-20T02:45+00:00"
+    "checked": "2026-11-20T10:35+00:00"
    },
    {
     "id": "freeze",
@@ -258,21 +253,21 @@
     "title": "First freeze in Buffalo",
     "value": "100%",
     "status": "alert",
-    "detail": "Not yet this fall. 31 of 31 model runs freeze within 10 days, around Nov 24. Coldest run: 19\u00b0F.",
-    "run": "GEFS Nov 19 12z",
+    "detail": "Not yet this fall. 31 of 31 model runs freeze within 10 days, around Nov 24. Coldest run: 20\u00b0F.",
+    "run": "GEFS Nov 20 00z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-11-20T02:45+00:00"
+    "checked": "2026-11-20T10:35+00:00"
    },
    {
     "id": "arctic",
     "icon": "\ud83e\udd76",
     "title": "Arctic air over Buffalo?",
-    "value": "55%",
-    "status": "alert",
-    "detail": "17 of 31 model runs bring air colder than 14\u00b0F about 5,000 ft up around Nov 24. Coldest run: 4\u00b0F up there.",
-    "run": "GEFS Nov 19 12z",
+    "value": "42%",
+    "status": "watch",
+    "detail": "13 of 31 model runs bring air colder than 14\u00b0F about 5,000 ft up around Nov 24. Coldest run: 8\u00b0F up there.",
+    "run": "GEFS Nov 20 00z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-11-20T02:45+00:00"
+    "checked": "2026-11-20T10:35+00:00"
    },
    {
     "id": "lakeeffect",
@@ -281,31 +276,31 @@
     "value": "94%",
     "status": "alert",
     "detail": "29 of 31 model runs get cold enough over Lake Erie (55\u00b0F water) for lake-effect snow around Nov 24. 100% show lake-effect rain showers.",
-    "run": "GEFS Nov 19 12z",
+    "run": "GEFS Nov 20 00z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-11-20T02:45+00:00"
+    "checked": "2026-11-20T10:35+00:00"
    },
    {
     "id": "seichewind",
     "icon": "\ud83d\udec1",
     "title": "Seiche / big-wave wind coming?",
-    "value": "0%",
+    "value": "3%",
     "status": "calm",
-    "detail": "0 of 31 model runs blow SW winds of 35+ mph down Lake Erie in the next 10 days. Strongest run: 37 mph.",
-    "run": "GEFS Nov 19 12z",
+    "detail": "1 of 31 model runs blow SW winds of 35+ mph down Lake Erie around Nov 27. Strongest run: 39 mph.",
+    "run": "GEFS Nov 20 00z",
     "url": "https://tidesandcurrents.noaa.gov/waterlevels.html?id=9063020",
-    "checked": "2026-11-20T02:45+00:00"
+    "checked": "2026-11-20T10:35+00:00"
    },
    {
     "id": "seasmoke",
     "icon": "\ud83c\udf2b\ufe0f",
     "title": "Sea smoke (lake steam) mornings",
-    "value": "48%",
+    "value": "39%",
     "status": "watch",
-    "detail": "Needs Buffalo at 25\u00b0F or colder over 55\u00b0F water. 15 of 31 model runs get there around Nov 25.",
-    "run": "GEFS Nov 19 12z",
+    "detail": "Needs Buffalo at 25\u00b0F or colder over 55\u00b0F water. 12 of 31 model runs get there around Nov 25.",
+    "run": "GEFS Nov 20 00z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-11-20T02:45+00:00"
+    "checked": "2026-11-20T10:35+00:00"
    },
    {
     "id": "fallsice",
@@ -314,9 +309,9 @@
     "value": "0%",
     "status": "calm",
     "detail": "0 of 31 model runs bring 3 straight nights at 10\u00b0F or colder in the next 10 days.",
-    "run": "GEFS Nov 19 12z",
+    "run": "GEFS Nov 20 00z",
     "url": "https://www.niagarafallsstatepark.com/",
-    "checked": "2026-11-20T02:45+00:00"
+    "checked": "2026-11-20T10:35+00:00"
    }
   ]
  },
