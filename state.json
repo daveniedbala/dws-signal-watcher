@@ -1,25 +1,25 @@
 {
  "ran": {
-  "vortex": "2026-11-26T11:28:13.778246+00:00",
-  "nws": "2026-11-26T11:28:13.944299+00:00",
-  "aonao": "2026-11-26T11:28:14.526663+00:00",
-  "cpc": "2026-11-26T11:28:15.053771+00:00",
-  "erie": "2026-11-26T11:28:15.241101+00:00",
-  "gefs10": "2026-11-26T11:28:31.007013+00:00",
-  "lakesky": "2026-11-26T11:28:31.798632+00:00"
+  "vortex": "2026-11-26T20:23:56.605002+00:00",
+  "nws": "2026-11-26T20:23:56.825402+00:00",
+  "aonao": "2026-11-26T20:24:01.199077+00:00",
+  "cpc": "2026-11-26T20:24:02.170982+00:00",
+  "erie": "2026-11-26T20:24:02.683282+00:00",
+  "gefs10": "2026-11-26T20:26:00.965356+00:00",
+  "lakesky": "2026-11-26T20:26:02.883951+00:00"
  },
  "nws_seen": [],
- "ao_status": "watch",
+ "ao_status": "calm",
  "nao_status": "calm",
  "cpc610": {
-  "issued": 1795564800000,
+  "issued": 1795651200000,
   "cat": "Above",
-  "prob": 70
+  "prob": 80
  },
  "cpc814": {
-  "issued": 1795564800000,
+  "issued": 1795651200000,
   "cat": "Above",
-  "prob": 70
+  "prob": 80
  },
  "vortex_hist": [
   {
@@ -230,7 +230,7 @@
     ]
    },
    "url": "https://www.severe-weather.eu/polar-vortex-forecast/",
-   "checked": "2026-11-26T11:28+00:00"
+   "checked": "2026-11-26T20:23+00:00"
   },
   "reach": 16
  },
@@ -251,7 +251,7 @@
   "fallsice": []
  },
  "gefs10": {
-  "run": "2026112600",
+  "run": "2026112612",
   "cards": [
    {
     "id": "noreaster",
@@ -259,10 +259,10 @@
     "title": "Nor'easter in the next 10 days?",
     "value": "61%",
     "status": "alert",
-    "detail": "19 of 31 model runs show a strong storm off the Northeast coast around Nov 28. Strongest run: 982 mb (lower = stronger).",
-    "run": "GEFS Nov 26 00z",
+    "detail": "19 of 31 model runs show a strong storm off the Northeast coast around Nov 28. Strongest run: 981 mb (lower = stronger).",
+    "run": "GEFS Nov 26 12z",
     "url": "https://www.wpc.ncep.noaa.gov/",
-    "checked": "2026-11-26T11:28+00:00"
+    "checked": "2026-11-26T20:26+00:00"
    },
    {
     "id": "freeze",
@@ -270,10 +270,10 @@
     "title": "First freeze in Buffalo",
     "value": "Done",
     "status": "calm",
-    "detail": "Buffalo first hit 32\u00b0F on Nov 24. Coldest run: 29\u00b0F.",
-    "run": "GEFS Nov 26 00z",
+    "detail": "Buffalo first hit 32\u00b0F on Nov 24. Coldest run: 26\u00b0F.",
+    "run": "GEFS Nov 26 12z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-11-26T11:28+00:00"
+    "checked": "2026-11-26T20:26+00:00"
    },
    {
     "id": "arctic",
@@ -281,32 +281,32 @@
     "title": "Arctic air over Buffalo?",
     "value": "3%",
     "status": "calm",
-    "detail": "1 of 31 model runs bring air colder than 14\u00b0F about 5,000 ft up around Dec 1. Coldest run: 13\u00b0F up there.",
-    "run": "GEFS Nov 26 00z",
+    "detail": "1 of 31 model runs bring air colder than 14\u00b0F about 5,000 ft up around Dec 5. Coldest run: 9\u00b0F up there.",
+    "run": "GEFS Nov 26 12z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-11-26T11:28+00:00"
+    "checked": "2026-11-26T20:26+00:00"
    },
    {
     "id": "lakeeffect",
     "icon": "\u2744\ufe0f",
     "title": "Lake-effect snow setup?",
-    "value": "87%",
+    "value": "90%",
     "status": "alert",
-    "detail": "27 of 31 model runs get cold enough over Lake Erie (54\u00b0F water) for lake-effect snow around Nov 30. 100% show lake-effect rain showers.",
-    "run": "GEFS Nov 26 00z",
+    "detail": "28 of 31 model runs get cold enough over Lake Erie (54\u00b0F water) for lake-effect snow around Nov 30. 100% show lake-effect rain showers.",
+    "run": "GEFS Nov 26 12z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-11-26T11:28+00:00"
+    "checked": "2026-11-26T20:26+00:00"
    },
    {
     "id": "seichewind",
     "icon": "\ud83d\udec1",
     "title": "Seiche / big-wave wind coming?",
-    "value": "3%",
+    "value": "6%",
     "status": "calm",
-    "detail": "1 of 31 model runs blow SW winds of 35+ mph down Lake Erie around Dec 4. Strongest run: 44 mph.",
-    "run": "GEFS Nov 26 00z",
+    "detail": "2 of 31 model runs blow SW winds of 35+ mph down Lake Erie around Dec 5. Strongest run: 48 mph.",
+    "run": "GEFS Nov 26 12z",
     "url": "https://tidesandcurrents.noaa.gov/waterlevels.html?id=9063020",
-    "checked": "2026-11-26T11:28+00:00"
+    "checked": "2026-11-26T20:26+00:00"
    },
    {
     "id": "seasmoke",
@@ -315,9 +315,9 @@
     "value": "0%",
     "status": "calm",
     "detail": "Needs Buffalo at 24\u00b0F or colder over 54\u00b0F water. 0 of 31 model runs get there in the next 10 days.",
-    "run": "GEFS Nov 26 00z",
+    "run": "GEFS Nov 26 12z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-11-26T11:28+00:00"
+    "checked": "2026-11-26T20:26+00:00"
    },
    {
     "id": "fallsice",
@@ -326,9 +326,9 @@
     "value": "0%",
     "status": "calm",
     "detail": "0 of 31 model runs bring 3 straight nights at 10\u00b0F or colder in the next 10 days.",
-    "run": "GEFS Nov 26 00z",
+    "run": "GEFS Nov 26 12z",
     "url": "https://www.niagarafallsstatepark.com/",
-    "checked": "2026-11-26T11:28+00:00"
+    "checked": "2026-11-26T20:26+00:00"
    }
   ]
  },
