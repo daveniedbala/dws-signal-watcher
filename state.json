@@ -1,12 +1,12 @@
 {
  "ran": {
-  "vortex": "2026-11-26T20:23:56.605002+00:00",
-  "nws": "2026-11-26T20:23:56.825402+00:00",
-  "aonao": "2026-11-26T20:24:01.199077+00:00",
-  "cpc": "2026-11-26T20:24:02.170982+00:00",
-  "erie": "2026-11-26T20:24:02.683282+00:00",
-  "gefs10": "2026-11-26T20:26:00.965356+00:00",
-  "lakesky": "2026-11-26T20:26:02.883951+00:00"
+  "vortex": "2026-11-27T03:00:22.753659+00:00",
+  "nws": "2026-11-27T03:00:23.262000+00:00",
+  "aonao": "2026-11-27T03:00:27.591123+00:00",
+  "cpc": "2026-11-27T03:00:28.652030+00:00",
+  "erie": "2026-11-27T03:00:29.173020+00:00",
+  "gefs10": "2026-11-27T03:00:29.370192+00:00",
+  "lakesky": "2026-11-27T03:00:31.062615+00:00"
  },
  "nws_seen": [],
  "ao_status": "calm",
@@ -189,7 +189,7 @@
    "title": "Will the polar vortex break down?",
    "value": "0%",
    "status": "calm",
-   "detail": "In 0 of 31 runs of the American weather model, the spinning winds over the Arctic stop and reverse within 16 days. That can send Arctic air south 1 to 3 weeks later. Yesterday: 0%.",
+   "detail": "In 0 of 31 runs of the American weather model, the spinning winds over the Arctic stop and reverse within 30 days. That can send Arctic air south 1 to 3 weeks later. Yesterday: 0%.",
    "run": "GEFS Nov 26 00z",
    "series": {
     "days": [
@@ -208,7 +208,14 @@
      13,
      14,
      15,
-     16
+     16,
+     18,
+     20,
+     22,
+     24,
+     26,
+     28,
+     30
     ],
     "mean": [
      26.1,
@@ -226,13 +233,20 @@
      33.3,
      34.2,
      35.9,
-     38.6
+     38.6,
+     42.4,
+     43.3,
+     41.8,
+     40.4,
+     38.7,
+     38.8,
+     40.0
     ]
    },
    "url": "https://www.severe-weather.eu/polar-vortex-forecast/",
-   "checked": "2026-11-26T20:23+00:00"
+   "checked": "2026-11-27T03:00+00:00"
   },
-  "reach": 16
+  "reach": 30
  },
  "erie_alert_week": "2026-47",
  "erie_c": 11.98,
@@ -262,7 +276,7 @@
     "detail": "19 of 31 model runs show a strong storm off the Northeast coast around Nov 28. Strongest run: 981 mb (lower = stronger).",
     "run": "GEFS Nov 26 12z",
     "url": "https://www.wpc.ncep.noaa.gov/",
-    "checked": "2026-11-26T20:26+00:00"
+    "checked": "2026-11-27T03:00+00:00"
    },
    {
     "id": "freeze",
@@ -273,7 +287,7 @@
     "detail": "Buffalo first hit 32\u00b0F on Nov 24. Coldest run: 26\u00b0F.",
     "run": "GEFS Nov 26 12z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-11-26T20:26+00:00"
+    "checked": "2026-11-27T03:00+00:00"
    },
    {
     "id": "arctic",
@@ -284,7 +298,7 @@
     "detail": "1 of 31 model runs bring air colder than 14\u00b0F about 5,000 ft up around Dec 5. Coldest run: 9\u00b0F up there.",
     "run": "GEFS Nov 26 12z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-11-26T20:26+00:00"
+    "checked": "2026-11-27T03:00+00:00"
    },
    {
     "id": "lakeeffect",
@@ -295,7 +309,7 @@
     "detail": "28 of 31 model runs get cold enough over Lake Erie (54\u00b0F water) for lake-effect snow around Nov 30. 100% show lake-effect rain showers.",
     "run": "GEFS Nov 26 12z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-11-26T20:26+00:00"
+    "checked": "2026-11-27T03:00+00:00"
    },
    {
     "id": "seichewind",
@@ -306,7 +320,7 @@
     "detail": "2 of 31 model runs blow SW winds of 35+ mph down Lake Erie around Dec 5. Strongest run: 48 mph.",
     "run": "GEFS Nov 26 12z",
     "url": "https://tidesandcurrents.noaa.gov/waterlevels.html?id=9063020",
-    "checked": "2026-11-26T20:26+00:00"
+    "checked": "2026-11-27T03:00+00:00"
    },
    {
     "id": "seasmoke",
@@ -317,7 +331,7 @@
     "detail": "Needs Buffalo at 24\u00b0F or colder over 54\u00b0F water. 0 of 31 model runs get there in the next 10 days.",
     "run": "GEFS Nov 26 12z",
     "url": "https://www.weather.gov/buf/",
-    "checked": "2026-11-26T20:26+00:00"
+    "checked": "2026-11-27T03:00+00:00"
    },
    {
     "id": "fallsice",
@@ -328,7 +342,7 @@
     "detail": "0 of 31 model runs bring 3 straight nights at 10\u00b0F or colder in the next 10 days.",
     "run": "GEFS Nov 26 12z",
     "url": "https://www.niagarafallsstatepark.com/",
-    "checked": "2026-11-26T20:26+00:00"
+    "checked": "2026-11-27T03:00+00:00"
    }
   ]
  },
@@ -337,5 +351,6 @@
  "nao_alerted": "Nov 10",
  "freeze_seen": {
   "2026": "2026-11-24"
- }
+ },
+ "seiche_alerted": "2026-11-27"
 }
