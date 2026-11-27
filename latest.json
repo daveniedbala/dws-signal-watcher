@@ -8,7 +8,7 @@
    "status": "calm",
    "detail": "Nothing for Western New York right now.",
    "url": "https://www.weather.gov/buf/",
-   "checked": "2026-11-27T03:00+00:00"
+   "checked": "2026-11-27T11:52+00:00"
   },
   "ao": {
    "id": "ao",
@@ -56,7 +56,7 @@
     ]
    },
    "url": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/daily_ao_index/ao.shtml",
-   "checked": "2026-11-27T03:00+00:00"
+   "checked": "2026-11-27T11:52+00:00"
   },
   "nao": {
    "id": "nao",
@@ -104,7 +104,7 @@
     ]
    },
    "url": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/daily_ao_index/ao.shtml",
-   "checked": "2026-11-27T03:00+00:00"
+   "checked": "2026-11-27T11:52+00:00"
   },
   "cpc610": {
    "id": "cpc610",
@@ -114,7 +114,7 @@
    "status": "alert",
    "detail": "Dec 2\u2013Dec 6: 80% chance of being warmer than normal.",
    "url": "https://www.cpc.ncep.noaa.gov/products/predictions/610day/",
-   "checked": "2026-11-27T03:00+00:00"
+   "checked": "2026-11-27T11:52+00:00"
   },
   "cpc814": {
    "id": "cpc814",
@@ -124,17 +124,17 @@
    "status": "alert",
    "detail": "Dec 4\u2013Dec 10: 80% chance of being warmer than normal.",
    "url": "https://www.cpc.ncep.noaa.gov/products/predictions/814day/",
-   "checked": "2026-11-27T03:00+00:00"
+   "checked": "2026-11-27T11:52+00:00"
   },
   "erie": {
    "id": "erie",
    "icon": "\ud83c\udf0a",
    "title": "Lake Erie water temperature",
-   "value": "54\u00b0F",
+   "value": "53\u00b0F",
    "status": "alert",
-   "detail": "Nov 25: 6\u00b0F warmer than normal (48\u00b0F). Record for the date: 53.2\u00b0F (2024). Warmer water = more fuel for lake-effect snow.",
+   "detail": "Nov 26: 6\u00b0F warmer than normal (47\u00b0F). Record for the date: 52.6\u00b0F (2024). Warmer water = more fuel for lake-effect snow.",
    "url": "https://coastwatch.glerl.noaa.gov/statistics/average-surface-water-temperature-glsea/",
-   "checked": "2026-11-27T03:00+00:00"
+   "checked": "2026-11-27T11:52+00:00"
   },
   "vortex": {
    "id": "vortex",
@@ -142,8 +142,8 @@
    "title": "Will the polar vortex break down?",
    "value": "0%",
    "status": "calm",
-   "detail": "In 0 of 31 runs of the American weather model, the spinning winds over the Arctic stop and reverse within 30 days. That can send Arctic air south 1 to 3 weeks later. Yesterday: 0%.",
-   "run": "GEFS Nov 26 00z",
+   "detail": "In 0 of 31 runs of the American weather model, the spinning winds over the Arctic stop and reverse within 16 days. That can send Arctic air south 1 to 3 weeks later. Yesterday: 0%.",
+   "run": "GEFS Nov 27 00z",
    "series": {
     "days": [
      1,
@@ -161,54 +161,40 @@
      13,
      14,
      15,
-     16,
-     18,
-     20,
-     22,
-     24,
-     26,
-     28,
-     30
+     16
     ],
     "mean": [
-     26.1,
-     25.1,
-     26.3,
-     28.3,
+     25.2,
+     26.7,
+     31.0,
      33.0,
-     33.1,
-     32.6,
+     32.0,
+     30.9,
+     27.5,
+     26.3,
+     25.6,
+     27.2,
+     29.4,
      31.4,
-     30.4,
-     28.5,
-     29.5,
-     32.2,
-     33.3,
-     34.2,
-     35.9,
-     38.6,
-     42.4,
-     43.3,
-     41.8,
-     40.4,
-     38.7,
-     38.8,
-     40.0
+     32.3,
+     34.6,
+     37.8,
+     40.9
     ]
    },
    "url": "https://www.severe-weather.eu/polar-vortex-forecast/",
-   "checked": "2026-11-27T03:00+00:00"
+   "checked": "2026-11-27T11:52+00:00"
   },
   "noreaster": {
    "id": "noreaster",
    "icon": "\ud83c\udf00",
    "title": "Nor'easter in the next 10 days?",
-   "value": "61%",
+   "value": "71%",
    "status": "alert",
-   "detail": "19 of 31 model runs show a strong storm off the Northeast coast around Nov 28. Strongest run: 981 mb (lower = stronger).",
-   "run": "GEFS Nov 26 12z",
+   "detail": "22 of 31 model runs show a strong storm off the Northeast coast around Nov 28. Strongest run: 976 mb (lower = stronger).",
+   "run": "GEFS Nov 27 00z",
    "url": "https://www.wpc.ncep.noaa.gov/",
-   "checked": "2026-11-27T03:00+00:00"
+   "checked": "2026-11-27T11:54+00:00"
   },
   "freeze": {
    "id": "freeze",
@@ -217,9 +203,9 @@
    "value": "Done",
    "status": "calm",
    "detail": "Buffalo first hit 32\u00b0F on Nov 24. Coldest run: 26\u00b0F.",
-   "run": "GEFS Nov 26 12z",
+   "run": "GEFS Nov 27 00z",
    "url": "https://www.weather.gov/buf/",
-   "checked": "2026-11-27T03:00+00:00"
+   "checked": "2026-11-27T11:54+00:00"
   },
   "arctic": {
    "id": "arctic",
@@ -227,31 +213,31 @@
    "title": "Arctic air over Buffalo?",
    "value": "3%",
    "status": "calm",
-   "detail": "1 of 31 model runs bring air colder than 14\u00b0F about 5,000 ft up around Dec 5. Coldest run: 9\u00b0F up there.",
-   "run": "GEFS Nov 26 12z",
+   "detail": "1 of 31 model runs bring air colder than 14\u00b0F about 5,000 ft up around Dec 1. Coldest run: 14\u00b0F up there.",
+   "run": "GEFS Nov 27 00z",
    "url": "https://www.weather.gov/buf/",
-   "checked": "2026-11-27T03:00+00:00"
+   "checked": "2026-11-27T11:54+00:00"
   },
   "lakeeffect": {
    "id": "lakeeffect",
    "icon": "\u2744\ufe0f",
    "title": "Lake-effect snow setup?",
-   "value": "90%",
+   "value": "100%",
    "status": "alert",
-   "detail": "28 of 31 model runs get cold enough over Lake Erie (54\u00b0F water) for lake-effect snow around Nov 30. 100% show lake-effect rain showers.",
-   "run": "GEFS Nov 26 12z",
+   "detail": "31 of 31 model runs get cold enough over Lake Erie (53\u00b0F water) for lake-effect snow around Dec 1. 100% show lake-effect rain showers.",
+   "run": "GEFS Nov 27 00z",
    "url": "https://www.weather.gov/buf/",
-   "checked": "2026-11-27T03:00+00:00"
+   "checked": "2026-11-27T11:54+00:00"
   },
   "seiche": {
    "id": "seiche",
    "icon": "\ud83d\udec1",
    "title": "Lake Erie seiche (sloshing) now",
-   "value": "-6.1 ft",
-   "status": "alert",
-   "detail": "Buffalo water level minus Toledo: -6.1 ft (Buffalo -0.5 ft above low water). 6+ ft difference = a big seiche.",
+   "value": "-0.5 ft",
+   "status": "calm",
+   "detail": "Buffalo water level minus Toledo: -0.5 ft (Buffalo 1.6 ft above low water). 6+ ft difference = a big seiche.",
    "url": "https://tidesandcurrents.noaa.gov/waterlevels.html?id=9063020",
-   "checked": "2026-11-27T03:00+00:00"
+   "checked": "2026-11-27T11:54+00:00"
   },
   "waves": {
    "id": "waves",
@@ -261,7 +247,7 @@
    "status": "calm",
    "detail": "Eastern Lake Erie buoy: 0.0 ft waves. 8+ ft = big wave day.",
    "url": "https://www.ndbc.noaa.gov/station_page.php?station=45142",
-   "checked": "2026-11-27T03:00+00:00"
+   "checked": "2026-11-27T11:54+00:00"
   },
   "aurora": {
    "id": "aurora",
@@ -271,7 +257,7 @@
    "status": "calm",
    "detail": "Highest forecast: Kp 3.7 around Nov 28. Kp 6+ = maybe visible from WNY, 7+ = good chance.",
    "url": "https://www.swpc.noaa.gov/products/aurora-30-minute-forecast",
-   "checked": "2026-11-27T03:00+00:00"
+   "checked": "2026-11-27T11:54+00:00"
   },
   "storms": {
    "id": "storms",
@@ -281,18 +267,18 @@
    "status": "calm",
    "detail": "No thunderstorms expected in the next 3 days.",
    "url": "https://www.spc.noaa.gov/products/outlook/",
-   "checked": "2026-11-27T03:00+00:00"
+   "checked": "2026-11-27T11:54+00:00"
   },
   "seichewind": {
    "id": "seichewind",
    "icon": "\ud83d\udec1",
    "title": "Seiche / big-wave wind coming?",
-   "value": "6%",
+   "value": "3%",
    "status": "calm",
-   "detail": "2 of 31 model runs blow SW winds of 35+ mph down Lake Erie around Dec 5. Strongest run: 48 mph.",
-   "run": "GEFS Nov 26 12z",
+   "detail": "1 of 31 model runs blow SW winds of 35+ mph down Lake Erie around Dec 6. Strongest run: 38 mph.",
+   "run": "GEFS Nov 27 00z",
    "url": "https://tidesandcurrents.noaa.gov/waterlevels.html?id=9063020",
-   "checked": "2026-11-27T03:00+00:00"
+   "checked": "2026-11-27T11:54+00:00"
   },
   "seasmoke": {
    "id": "seasmoke",
@@ -300,10 +286,10 @@
    "title": "Sea smoke (lake steam) mornings",
    "value": "0%",
    "status": "calm",
-   "detail": "Needs Buffalo at 24\u00b0F or colder over 54\u00b0F water. 0 of 31 model runs get there in the next 10 days.",
-   "run": "GEFS Nov 26 12z",
+   "detail": "Needs Buffalo at 23\u00b0F or colder over 53\u00b0F water. 0 of 31 model runs get there in the next 10 days.",
+   "run": "GEFS Nov 27 00z",
    "url": "https://www.weather.gov/buf/",
-   "checked": "2026-11-27T03:00+00:00"
+   "checked": "2026-11-27T11:54+00:00"
   },
   "fallsice": {
    "id": "fallsice",
@@ -312,12 +298,16 @@
    "value": "0%",
    "status": "calm",
    "detail": "0 of 31 model runs bring 3 straight nights at 10\u00b0F or colder in the next 10 days.",
-   "run": "GEFS Nov 26 12z",
+   "run": "GEFS Nov 27 00z",
    "url": "https://www.niagarafallsstatepark.com/",
-   "checked": "2026-11-27T03:00+00:00"
+   "checked": "2026-11-27T11:54+00:00"
   }
  },
  "recent": [
+  {
+   "at": "2026-11-27T11:54+00:00",
+   "text": "\ud83c\udf00 Nor'easter signal. A nor'easter is a strong storm that spins up off the East Coast and pulls in wind, rain and snow from the northeast. In 22 of 31 runs of the American weather model (71%), a powerful storm (pressure below 990 mb) forms off New England around Nov 28. Lower pressure means a stronger storm; the strongest run drops to 976 mb."
+  },
   {
    "at": "2026-11-27T03:00+00:00",
    "text": "\ud83c\udf0a Lake Erie seiche happening now. Strong wind is pushing the lake's water toward Toledo, like water sloshing to one end of a bathtub. Buffalo's water is 6.1 feet lower than Toledo's right now. The Buffalo shoreline is drained: exposed lakebed and shipwreck-hunting photos."
@@ -413,11 +403,7 @@
   {
    "at": "2026-11-05T10:22+00:00",
    "text": "\u2744\ufe0f Lake-effect snow setup. When cold air flows over the warmer lake, the lake heats and moistens it, and it rises into snow bands. Forecasters look for the lake to be about 23\u00b0F (13\u00b0C) warmer than the air 5,000 feet up, with that air cold enough for snow. In 27 of 31 runs of the American weather model (87%), that happens over Lake Erie around Nov 12. Wind direction decides who gets buried."
-  },
-  {
-   "at": "2026-11-04T17:31+00:00",
-   "text": "\ud83c\udf2b\ufe0f Sea smoke photo morning. When air about 30\u00b0F colder than the lake sits over it, the lake \"steams\" like a hot bath, making wisps of fog called sea smoke. Lake Erie is 61\u00b0F and 20 of 31 model runs (65%) drop Buffalo to 31\u00b0F or colder around Nov 13. Best right at sunrise with light wind."
   }
  ],
- "updated": "2026-11-27T03:00+00:00"
+ "updated": "2026-11-27T11:54+00:00"
 }
